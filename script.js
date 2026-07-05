@@ -1,73 +1,83 @@
+import { initHeader } from './JS/header.js'
+import { supabase } from './JS/supabase-client.js'
+
+// ── Header ────────────────────────────────────────────────────
+initHeader()
+
 // ── Preloader ─────────────────────────────────────────────────
+const preloader = document.getElementById('preloader')
+const heroVideo = document.getElementById('hero-video')
 
-const preloader = document.getElementById('preloader');
-const heroVideo = document.getElementById('hero-video');
-
-// Vérifie si le site a déjà été lancé dans cette session
-const alreadyLoaded = sessionStorage.getItem('siteLoaded');
+const alreadyLoaded = sessionStorage.getItem('siteLoaded')
 
 if (preloader) {
-
-    // Si déjà visité → supprime directement le preloader
     if (alreadyLoaded) {
-
-        preloader.remove();
-        document.body.classList.remove('loading');
-        if (heroVideo) heroVideo.play();
-
+        preloader.remove()
+        document.body.classList.remove('loading')
+        if (heroVideo) heroVideo.play().catch(() => {})
     } else {
-
-        // Première ouverture du site
-        sessionStorage.setItem('siteLoaded', 'true');
-
+        sessionStorage.setItem('siteLoaded', 'true')
         setTimeout(() => {
-
-            // 1. Fade out du preloader
-            preloader.classList.add('hidden');
-
-            // 2. Révèle le site
-            document.body.classList.remove('loading');
-            if (heroVideo) heroVideo.play();
-
-            // 3. Supprime le preloader du DOM
-            setTimeout(() => preloader.remove(), 750);
-
-        }, 3500);
+            preloader.classList.add('hidden')
+            document.body.classList.remove('loading')
+            if (heroVideo) heroVideo.play().catch(() => {})
+            setTimeout(() => preloader.remove(), 750)
+        }, 3500)
     }
 } else {
-    if (heroVideo) heroVideo.play();
+    if (heroVideo) heroVideo.play().catch(() => {})
 }
 
-const video = document.querySelector('.video-fullscreen');
+// ── Hero video click-to-fullscreen ────────────────────────────
+const video = document.querySelector('.video-fullscreen')
 
 if (video) {
-    video.addEventListener("click", () => {
-        video.classList.add("fade-transition");
+    video.addEventListener('click', () => {
+        video.classList.add('fade-transition')
         setTimeout(() => {
-            video.currentTime = 0;
-            video.muted = false;
-            video.play();
-            video.controls = true;
-            video.style.cursor = "default";
-            video.style.pointerEvents = "none";
+            video.currentTime = 0
+            video.muted = false
+            video.play()
+            video.controls = true
+            video.style.cursor = 'default'
+            video.style.pointerEvents = 'none'
 
             if (video.requestFullscreen) {
-                video.requestFullscreen();
+                video.requestFullscreen()
             } else if (video.webkitRequestFullscreen) {
-                video.webkitRequestFullscreen();
+                video.webkitRequestFullscreen()
             } else if (video.msRequestFullscreen) {
-                video.msRequestFullscreen();
+                video.msRequestFullscreen()
             }
-            video.classList.remove("fade-transition");
-        }, 300);
-    });
+            video.classList.remove('fade-transition')
+        }, 300)
+    })
 
     document.addEventListener('fullscreenchange', () => {
         if (!document.fullscreenElement) {
-            video.muted = true;
-            video.controls = false;
-            video.style.cursor = "pointer";
-            video.style.pointerEvents = "auto";
+            video.muted = true
+            video.controls = false
+            video.style.cursor = 'pointer'
+            video.style.pointerEvents = 'auto'
         }
-    });
+    })
 }
+
+// ── Load events from Supabase ─────────────────────────────────
+;(async () => {
+    const { data: events } = await supabase.from('events').select('*')
+    if (!events) return
+
+    for (const ev of events) {
+        const t = ev.type
+        const arcEl = document.getElementById(`event-${t}-arc`)
+        const locationEl = document.getElementById(`event-${t}-location`)
+        const descEl = document.getElementById(`event-${t}-desc`)
+        const dateEl = document.getElementById(`event-${t}-date`)
+
+        if (arcEl) arcEl.textContent = [ev.arc, ev.episode_chapter].filter(Boolean).join(' — ')
+        if (locationEl) locationEl.textContent = ev.location || ''
+        if (descEl) descEl.childNodes[0].textContent = ev.description ? ev.description + ' ' : ''
+        if (dateEl) dateEl.textContent = ev.event_date || ''
+    }
+})()

@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Choisir sa faction — One Piece</title>
+  <link rel="stylesheet" href="CSS/style.css">
+  <link rel="stylesheet" href="CSS/pages.css">
+  <script src="https://kit.fontawesome.com/dd226ad74d.js" crossorigin="anonymous"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Pirata+One&display=swap" rel="stylesheet">
+</head>
+<body>
+  <video class="page-bg-video" autoplay muted loop playsinline src="background.mp4"></video>
+  <div class="background"></div>
+
+  <header id="site-header"></header>
+
+  <div class="faction-wrapper">
+    <h1 class="faction-title">Quelle faction es-tu ?</h1>
+    <p class="faction-subtitle">Ton destin sur Grand Line dépend de ce choix. Choisis avec sagesse.</p>
+
+    <div id="alert-box"></div>
+
+    <div class="faction-cards">
+      <div class="faction-card" data-faction="pirate">
+        <img src="IMG/UI/Factions/Faction-pirate.png" alt="Pirate">
+        <div class="faction-card-overlay">
+          <div class="faction-card-name">Pirate</div>
+          <div class="faction-card-desc">La liberté avant tout. Voguer sur Grand Line à la conquête du One Piece et du titre de Roi des Pirates.</div>
+        </div>
+        <div class="faction-card-check"><i class="fas fa-check"></i></div>
+      </div>
+
+      <div class="faction-card" data-faction="marine">
+        <img src="IMG/UI/Factions/Faction-marine.png" alt="Marine">
+        <div class="faction-card-overlay">
+          <div class="faction-card-name">Marine</div>
+          <div class="faction-card-desc">La justice et l'ordre. Protéger les mers et faire régner la loi au nom du Gouvernement Mondial.</div>
+        </div>
+        <div class="faction-card-check"><i class="fas fa-check"></i></div>
+      </div>
+
+      <div class="faction-card" data-faction="revolutionnaire">
+        <img src="IMG/UI/Factions/Faction-revolutionnaire.png" alt="Révolutionnaire">
+        <div class="faction-card-overlay">
+          <div class="faction-card-name">Révolutionnaire</div>
+          <div class="faction-card-desc">Renverser l'ordre établi. Combattre le Gouvernement Mondial pour libérer les peuples opprimés.</div>
+        </div>
+        <div class="faction-card-check"><i class="fas fa-check"></i></div>
+      </div>
+    </div>
+
+    <button class="faction-confirm-btn" id="confirm-btn" disabled>Je confirme</button>
+  </div>
+
+  <script type="module" src="JS/faction.js"></script>
+</body>
+</html>

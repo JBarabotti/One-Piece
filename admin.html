@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Administration — One Piece</title>
+  <link rel="stylesheet" href="CSS/style.css">
+  <link rel="stylesheet" href="CSS/pages.css">
+  <script src="https://kit.fontawesome.com/dd226ad74d.js" crossorigin="anonymous"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Pirata+One&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="background"></div>
+
+  <header id="site-header"></header>
+
+  <div class="admin-page">
+    <div class="admin-container">
+
+      <div class="admin-title"><i class="fas fa-crown"></i> Panneau Admin</div>
+      <span class="admin-badge">Accès restreint — Administrateur</span>
+
+      <div id="alert-global"></div>
+
+      <div class="admin-tabs">
+        <button class="admin-tab active" data-tab="users">Utilisateurs</button>
+        <button class="admin-tab" data-tab="events">Évènements actuels</button>
+        <button class="admin-tab" data-tab="send-message">Envoyer un message</button>
+      </div>
+
+      <!-- USERS TAB -->
+      <div class="admin-panel active" id="panel-users">
+        <div class="admin-card">
+          <div class="admin-card-title"><i class="fas fa-users"></i> Gestion des utilisateurs</div>
+          <div style="overflow-x:auto;">
+            <table class="admin-table">
+              <thead>
+                <tr>
+                  <th>Utilisateur</th>
+                  <th>E-mail</th>
+                  <th>Faction</th>
+                  <th>Rôle</th>
+                  <th>Inscription</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="users-tbody">
+                <tr><td colspan="6" style="color:#475569; text-align:center; padding:24px;">Chargement...</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- EVENTS TAB -->
+      <div class="admin-panel" id="panel-events">
+
+        <!-- Anime event -->
+        <div class="admin-card">
+          <div class="admin-card-title"><i class="fas fa-tv"></i> Animé — Évènement actuel</div>
+          <div class="event-editor" id="event-editor-anime">
+            <div class="event-field-row"><span class="event-field-label">Arc</span><input class="event-field-input" data-key="arc" placeholder="Nom de l'arc"></div>
+            <div class="event-field-row"><span class="event-field-label">Épisode</span><input class="event-field-input" data-key="episode_chapter" placeholder="Épisode XXX"></div>
+            <div class="event-field-row"><span class="event-field-label">Lieu</span><input class="event-field-input" data-key="location" placeholder="Île / pays"></div>
+            <div class="event-field-row"><span class="event-field-label">Description</span><input class="event-field-input" data-key="description" placeholder="Il se passe…"></div>
+            <div class="event-field-row"><span class="event-field-label">Date</span><input class="event-field-input" data-key="event_date" placeholder="Ex: Juin 2025"></div>
+            <button class="btn-save-event" data-type="anime">Enregistrer l'animé</button>
+          </div>
+        </div>
+
+        <!-- Manga event -->
+        <div class="admin-card">
+          <div class="admin-card-title"><i class="fas fa-book"></i> Manga — Évènement actuel</div>
+          <div class="event-editor" id="event-editor-manga">
+            <div class="event-field-row"><span class="event-field-label">Arc</span><input class="event-field-input" data-key="arc" placeholder="Nom de l'arc"></div>
+            <div class="event-field-row"><span class="event-field-label">Chapitre</span><input class="event-field-input" data-key="episode_chapter" placeholder="Chapitre XXX"></div>
+            <div class="event-field-row"><span class="event-field-label">Lieu</span><input class="event-field-input" data-key="location" placeholder="Île / pays"></div>
+            <div class="event-field-row"><span class="event-field-label">Description</span><input class="event-field-input" data-key="description" placeholder="Il se passe…"></div>
+            <div class="event-field-row"><span class="event-field-label">Date</span><input class="event-field-input" data-key="event_date" placeholder="Ex: Juin 2025"></div>
+            <button class="btn-save-event" data-type="manga">Enregistrer le manga</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- SEND MESSAGE TAB -->
+      <div class="admin-panel" id="panel-send-message">
+        <div class="admin-card">
+          <div class="admin-card-title"><i class="fas fa-envelope"></i> Envoyer un message</div>
+          <div class="admin-msg-form">
+            <div class="form-group">
+              <label class="form-label">Destinataire (nom d'utilisateur)</label>
+              <input type="text" id="msg-target-username" class="event-field-input" placeholder="Nom d'utilisateur" style="width:100%;">
+              <div id="msg-target-status" style="font-size:12px; margin-top:6px; font-family:'Inter',sans-serif;"></div>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Message</label>
+              <textarea id="msg-content" class="event-field-input" rows="4" placeholder="Votre message…" style="width:100%;resize:vertical;"></textarea>
+            </div>
+            <button class="btn-save-event" id="admin-send-msg-btn">Envoyer</button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <script type="module" src="JS/admin.js"></script>
+</body>
+</html>
