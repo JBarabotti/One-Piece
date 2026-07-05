@@ -51,6 +51,10 @@
 
         <div class="admin-nav-section-label" style="margin-top:8px;">Contenu</div>
 
+        <button class="admin-nav-item" data-panel="characters">
+          <i class="fas fa-users-cog"></i> Personnages
+        </button>
+
         <button class="admin-nav-item" data-panel="event-anime">
           <i class="fas fa-tv"></i> Évènement Animé
         </button>
@@ -129,6 +133,13 @@
               <div class="stat-info">
                 <div class="stat-value" id="stat-marines">—</div>
                 <div class="stat-label">Marines</div>
+              </div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-icon purple"><i class="fas fa-book"></i></div>
+              <div class="stat-info">
+                <div class="stat-value" id="stat-characters">—</div>
+                <div class="stat-label">Personnages</div>
               </div>
             </div>
           </div>
@@ -273,6 +284,119 @@
               </div>
             </div>
           </div>
+        </div>
+
+        <!-- ── CHARACTERS PANEL ──────────────────────────── -->
+        <div class="admin-panel" id="panel-characters">
+
+          <!-- Sub-nav: list / add / edit view -->
+          <div class="chars-view" id="chars-view-list">
+            <div class="dash-card-header" style="margin-bottom:20px;">
+              <div class="dash-card-title"><i class="fas fa-users-cog"></i> Personnages</div>
+              <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;">
+                <select class="chars-cat-filter" id="chars-cat-filter">
+                  <option value="">Toutes les catégories</option>
+                </select>
+                <button class="btn-save-primary" id="btn-add-character" style="margin-top:0;">
+                  <i class="fas fa-plus"></i> Ajouter
+                </button>
+              </div>
+            </div>
+
+            <div class="chars-category-tabs" id="chars-category-tabs"></div>
+
+            <div id="chars-list-content">
+              <div class="chars-loading">Chargement…</div>
+            </div>
+          </div>
+
+          <!-- Add / Edit form view -->
+          <div class="chars-view" id="chars-view-form" style="display:none;">
+            <div class="dash-card">
+              <div class="dash-card-header">
+                <div class="dash-card-title" id="chars-form-title"><i class="fas fa-plus"></i> Ajouter un personnage</div>
+                <button class="btn-chars-back" id="btn-chars-back"><i class="fas fa-arrow-left"></i> Retour</button>
+              </div>
+
+              <input type="hidden" id="char-edit-id">
+
+              <div class="chars-form-grid">
+                <div class="event-field">
+                  <label class="event-field-label">Nom *</label>
+                  <input type="text" class="event-field-input" id="char-name" placeholder="Nom du personnage">
+                </div>
+                <div class="event-field">
+                  <label class="event-field-label">Catégorie *</label>
+                  <select class="event-field-input" id="char-category">
+                    <option value="">Choisir une catégorie</option>
+                  </select>
+                </div>
+                <div class="event-field">
+                  <label class="event-field-label">Rôle / Titre</label>
+                  <input type="text" class="event-field-input" id="char-role" placeholder="Ex : Capitaine, Amiral…">
+                </div>
+                <div class="event-field">
+                  <label class="event-field-label">Faction</label>
+                  <select class="event-field-input" id="char-faction">
+                    <option value="">Aucune</option>
+                    <option value="pirate">Pirate</option>
+                    <option value="marine">Marine</option>
+                    <option value="revolutionnaire">Révolutionnaire</option>
+                    <option value="other">Autre</option>
+                  </select>
+                </div>
+                <div class="event-field">
+                  <label class="event-field-label">Statut</label>
+                  <select class="event-field-input" id="char-status">
+                    <option value="alive">Vivant</option>
+                    <option value="dead">Mort</option>
+                    <option value="unknown">Inconnu</option>
+                  </select>
+                </div>
+                <div class="event-field">
+                  <label class="event-field-label">Prime</label>
+                  <input type="text" class="event-field-input" id="char-bounty" placeholder="Ex : 3 000 000 000 Berrys">
+                </div>
+                <div class="event-field">
+                  <label class="event-field-label">Fruit du Démon</label>
+                  <input type="text" class="event-field-input" id="char-devil-fruit" placeholder="Ex : Gomu Gomu no Mi">
+                </div>
+                <div class="event-field">
+                  <label class="event-field-label">Ordre d'affichage</label>
+                  <input type="number" class="event-field-input" id="char-sort" value="0" min="0">
+                </div>
+                <div class="event-field full">
+                  <label class="event-field-label">URL de l'image</label>
+                  <input type="url" class="event-field-input" id="char-image-url" placeholder="https://…">
+                </div>
+                <div class="event-field full">
+                  <label class="event-field-label">Description</label>
+                  <textarea class="event-field-input" id="char-description" rows="5" placeholder="Biographie, histoire du personnage…"></textarea>
+                </div>
+              </div>
+
+              <div style="display:flex;gap:12px;margin-top:20px;flex-wrap:wrap;">
+                <button class="btn-save-primary" id="btn-char-save">
+                  <i class="fas fa-save"></i> Enregistrer
+                </button>
+                <button class="btn-chars-back" id="btn-char-cancel">Annuler</button>
+              </div>
+
+            </div>
+          </div>
+
+          <!-- Delete confirm modal -->
+          <div class="chars-modal-overlay" id="chars-delete-modal" style="display:none;">
+            <div class="chars-modal">
+              <div class="chars-modal-title"><i class="fas fa-exclamation-triangle"></i> Confirmer la suppression</div>
+              <p class="chars-modal-body">Supprimer définitivement le personnage <strong id="chars-delete-name"></strong> ?</p>
+              <div class="chars-modal-actions">
+                <button class="btn-table-delete" id="btn-char-delete-confirm">Supprimer</button>
+                <button class="btn-chars-back" id="btn-char-delete-cancel">Annuler</button>
+              </div>
+            </div>
+          </div>
+
         </div>
 
       </div><!-- /admin-content -->

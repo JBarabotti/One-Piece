@@ -1300,15 +1300,42 @@ textarea.form-input {
    RESPONSIVE
 ════════════════════════════════════════════════════════════ */
 @media (max-width: 768px) {
-  .glass-card { padding: 36px 24px; }
-  .profile-header-card { flex-direction: column; text-align: center; gap: 20px; }
+  .glass-card { padding: 32px 20px; }
+
+  /* Profile */
+  .profile-page { padding: 80px 16px 40px; }
+  .profile-header-card { flex-direction: column; text-align: center; gap: 20px; padding: 28px 20px; }
+  .profile-info h2 { font-size: 28px; }
+  .profile-section-card { padding: 22px 18px; }
+  .profile-field-row { gap: 10px; }
+  .profile-edit-input { min-width: 0; }
+
+  /* Messages */
   .messages-sidebar { width: 100%; height: 240px; border-right: none; border-bottom: 1px solid rgba(56,189,248,0.1); }
   .messages-layout { flex-direction: column; height: auto; min-height: calc(100vh - 80px); }
   .messages-main { flex: 1; min-height: 400px; }
-  .faction-cards { gap: 20px; }
-  .faction-card { width: 280px; height: 360px; }
+
+  /* Faction */
+  .faction-wrapper { padding: 80px 16px 40px; }
+  .faction-cards { gap: 16px; }
+  .faction-card { width: min(280px, 100%); height: 340px; }
+  .faction-title { font-size: 36px; }
+  .faction-subtitle { font-size: 16px; margin-bottom: 36px; }
+  .faction-confirm-btn { padding: 14px 40px; font-size: 15px; }
+
+  /* Admin old */
   .admin-tabs { overflow-x: auto; }
   .event-field-row { grid-template-columns: 1fr; gap: 6px; }
   .header-account { position: static; transform: none; }
   header { flex-wrap: wrap; }
+}
+
+@media (max-width: 480px) {
+  .glass-card { padding: 24px 16px; }
+  .page-title { font-size: 28px; }
+  .faction-cards { flex-direction: column; align-items: center; }
+  .faction-card { width: 100%; max-width: 340px; height: 300px; }
+  .messages-thread { padding: 14px 14px; }
+  .messages-input-area { padding: 12px 14px; }
+  .profile-section-card { padding: 18px 14px; }
 }

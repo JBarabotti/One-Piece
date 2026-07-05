@@ -465,3 +465,41 @@ h1 span {
         box-shadow: 0 8px 24px var(--accent-glow);
     }
 }
+
+@media (max-width: 600px) {
+    .hero {
+        margin: 0;
+        border-radius: 0;
+        padding-bottom: 30px;
+    }
+
+    h1 {
+        font-size: 42px;
+        padding-top: 20px;
+    }
+
+    h1 span { font-size: 32px; }
+
+    .bloc { gap: 24px; margin-top: 30px; }
+    .bloc p { font-size: 18px; text-align: center; padding: 0 12px; }
+
+    .intro {
+        margin: 5% 4%;
+        padding: 18px;
+    }
+
+    .intro p { font-size: 16px; line-height: 1.8rem; }
+
+    .actuel { padding-top: 30px; }
+    .actuel h2 { font-size: 28px; }
+
+    .actuels {
+        margin: 4% 4%;
+        padding: 18px;
+    }
+
+    .actuels h3 { font-size: 22px; }
+    .actuels h4 { font-size: 18px; }
+    .actuels p { font-size: 16px; }
+    .actuels img { width: 100%; height: auto; max-height: 220px; object-fit: cover; }
+}

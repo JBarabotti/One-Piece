@@ -309,6 +309,35 @@ nav>ul>li:hover>.dropdown {
     display: none;
 }
 
+/* ─── Mobile nav ─────────────────────────────────────────── */
+@media (max-width: 900px) {
+    header {
+        padding: 0 16px;
+        height: 64px;
+        min-height: 64px;
+    }
+
+    header a.logo img {
+        width: 100px;
+    }
+
+    nav {
+        display: none;
+        margin-right: 0;
+    }
+
+    .header-account {
+        position: static !important;
+        transform: none !important;
+    }
+}
+
+@media (max-width: 480px) {
+    header {
+        padding: 0 12px;
+    }
+}
+
 /* ══════════════════════════════════════════════════════════════
    PRELOADER — One Piece
 ══════════════════════════════════════════════════════════════ */

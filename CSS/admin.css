@@ -658,3 +658,271 @@ textarea.event-field-input { resize: vertical; min-height: 80px; }
 
   .dash-card { padding: 18px 16px; }
 }
+
+/* ─── Characters management ──────────────────────────────────── */
+.stat-icon.purple { background: rgba(139,92,246,0.12); color: #A78BFA; }
+
+.chars-view { }
+
+.chars-category-tabs {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  margin-bottom: 20px;
+}
+
+.chars-cat-tab {
+  padding: 7px 16px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+  font-family: 'Inter', sans-serif;
+  border: 1px solid rgba(255,255,255,0.1);
+  background: rgba(255,255,255,0.04);
+  color: #64748B;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s, border-color 0.2s;
+  white-space: nowrap;
+}
+
+.chars-cat-tab:hover { background: rgba(255,255,255,0.08); color: #94A3B8; }
+.chars-cat-tab.active { background: rgba(245,158,11,0.12); border-color: rgba(245,158,11,0.3); color: #F59E0B; }
+
+.chars-cat-filter {
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(56,189,248,0.2);
+  border-radius: 8px;
+  padding: 8px 12px;
+  color: #CBD5E1;
+  font-size: 13px;
+  font-family: 'Inter', sans-serif;
+  outline: none;
+  cursor: pointer;
+}
+
+.chars-cat-filter:focus { border-color: #38BDF8; }
+
+.chars-group { margin-bottom: 28px; }
+
+.chars-group-header {
+  font-family: "Pirata One", cursive;
+  font-size: 18px;
+  color: #FDBA74;
+  margin-bottom: 14px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.chars-group-count {
+  font-family: 'Inter', sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  background: rgba(245,158,11,0.12);
+  border: 1px solid rgba(245,158,11,0.25);
+  color: #F59E0B;
+  padding: 2px 8px;
+  border-radius: 20px;
+}
+
+.chars-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 16px;
+}
+
+.chars-card {
+  background: rgba(8,13,24,0.85);
+  border: 1px solid rgba(56,189,248,0.1);
+  border-radius: 14px;
+  overflow: hidden;
+  transition: border-color 0.25s, box-shadow 0.25s;
+  display: flex;
+  flex-direction: column;
+}
+
+.chars-card:hover {
+  border-color: rgba(245,158,11,0.25);
+  box-shadow: 0 6px 24px rgba(0,0,0,0.4);
+}
+
+.chars-card-img {
+  width: 100%;
+  height: 160px;
+  object-fit: cover;
+  display: block;
+}
+
+.chars-card-img-placeholder {
+  width: 100%;
+  height: 160px;
+  background: rgba(255,255,255,0.03);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: rgba(148,163,184,0.2);
+  font-size: 40px;
+}
+
+.chars-card-body {
+  padding: 14px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.chars-card-name {
+  font-family: "Pirata One", cursive;
+  font-size: 16px;
+  color: #F8FAFC;
+  line-height: 1.2;
+}
+
+.chars-card-role {
+  font-size: 11px;
+  color: #64748B;
+  font-family: 'Inter', sans-serif;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+}
+
+.chars-card-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 2px;
+}
+
+.chars-status-pill {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 20px;
+  font-size: 10px;
+  font-weight: 700;
+  font-family: 'Inter', sans-serif;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.chars-status-alive  { background: rgba(16,185,129,0.12); color: #6EE7B7; border: 1px solid rgba(16,185,129,0.25); }
+.chars-status-dead   { background: rgba(239,68,68,0.12);  color: #FCA5A5; border: 1px solid rgba(239,68,68,0.25); }
+.chars-status-unknown{ background: rgba(100,116,139,0.12); color: #94A3B8; border: 1px solid rgba(100,116,139,0.25); }
+
+.chars-card-actions {
+  display: flex;
+  gap: 8px;
+  margin-top: auto;
+  padding-top: 10px;
+}
+
+.chars-empty {
+  text-align: center;
+  color: #475569;
+  font-family: 'Inter', sans-serif;
+  font-size: 14px;
+  padding: 40px 20px;
+}
+
+.chars-loading {
+  text-align: center;
+  color: #475569;
+  font-family: 'Inter', sans-serif;
+  font-size: 14px;
+  padding: 40px;
+}
+
+/* Character form */
+.chars-form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin-top: 4px;
+}
+
+.btn-chars-back {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 9px;
+  color: #94A3B8;
+  font-size: 13px;
+  font-family: 'Inter', sans-serif;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+  white-space: nowrap;
+}
+
+.btn-chars-back:hover { background: rgba(255,255,255,0.08); color: #F8FAFC; }
+.btn-chars-back .fas { font-size: 12px; transform: none !important; }
+
+/* Delete modal */
+.chars-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.7);
+  backdrop-filter: blur(4px);
+  z-index: 200;
+  align-items: center;
+  justify-content: center;
+}
+
+.chars-modal {
+  background: rgba(8,13,24,0.98);
+  border: 1px solid rgba(239,68,68,0.25);
+  border-radius: 16px;
+  padding: 32px 28px;
+  max-width: 420px;
+  width: 90%;
+  margin: 20px;
+}
+
+.chars-modal-title {
+  font-family: "Pirata One", cursive;
+  font-size: 20px;
+  color: #FCA5A5;
+  margin-bottom: 14px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.chars-modal-title .fas { transform: none !important; }
+
+.chars-modal-body {
+  font-family: 'Inter', sans-serif;
+  font-size: 14px;
+  color: #CBD5E1;
+  line-height: 1.5;
+  margin-bottom: 24px;
+}
+
+.chars-modal-body strong { color: #F8FAFC; }
+
+.chars-modal-actions {
+  display: flex;
+  gap: 12px;
+}
+
+/* ─── Responsive for characters ─────────────────────────────── */
+@media (max-width: 900px) {
+  .chars-form-grid { grid-template-columns: 1fr; }
+  .chars-grid { grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); }
+  .chars-category-tabs { gap: 4px; }
+}
+
+@media (max-width: 600px) {
+  .chars-grid { grid-template-columns: 1fr 1fr; }
+  .chars-card-img, .chars-card-img-placeholder { height: 120px; }
+  .chars-cat-tab { padding: 6px 12px; font-size: 11px; }
+  .chars-cat-filter { display: none; }
+  .dash-card-header { flex-direction: column; align-items: flex-start; gap: 12px; }
+  .dash-card-header > div:last-child { width: 100%; justify-content: flex-end; }
+}
+
+@media (max-width: 420px) {
+  .chars-grid { grid-template-columns: 1fr; }
+}
