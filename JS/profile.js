@@ -1,8 +1,5 @@
 import { supabase } from './supabase-client.js'
-import { initHeader, updateHeaderAuth } from './header.js'
-import { requireAuth, getProfileByUsername } from './auth.js'
-
-initHeader()
+import { requireAuth, getProfileByUsername, signOut } from './auth.js'
 
 let currentUser = null
 let profile = null
@@ -50,6 +47,8 @@ async function loadProfile() {
 
 loadProfile()
 
+document.getElementById('profile-topbar-signout').addEventListener('click', signOut)
+
 // ── Avatar upload ─────────────────────────────────────────────
 document.getElementById('avatar-file-input').addEventListener('change', async (e) => {
   const file = e.target.files[0]
@@ -69,7 +68,6 @@ document.getElementById('avatar-file-input').addEventListener('change', async (e
 
   profile.avatar_url = avatarUrl
   renderAvatarDisplay(profile)
-  updateHeaderAuth()
   showGlobal('Photo de profil mise à jour.')
 })
 
@@ -129,7 +127,6 @@ document.getElementById('username-save-btn').addEventListener('click', async () 
   document.getElementById('profile-username-display').textContent = newUsername
   document.getElementById('username-val').textContent = newUsername
   document.getElementById('username-cancel-btn').click()
-  updateHeaderAuth()
   showGlobal('Nom d\'utilisateur mis à jour.')
 })
 
