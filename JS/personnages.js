@@ -209,6 +209,8 @@ async function renderCharacter(charId) {
   const statusClass = c.status === 'alive' ? 'alive' : c.status === 'dead' ? 'dead' : 'unknown'
   const factionLabels = { pirate: 'Pirate', marine: 'Marine', revolutionnaire: 'Révolutionnaire', other: 'Autre' }
 
+  const blocks = Array.isArray(c.content_blocks) ? c.content_blocks : []
+
   container().innerHTML = `
     <div class="pers-detail" style="--cat-color:${color}">
       <div class="pers-detail-header">
@@ -234,10 +236,82 @@ async function renderCharacter(charId) {
           <h2>Description</h2>
           <p>${c.description}</p>
         </div>` : ''}
+      ${blocks.length ? `<div class="pers-content-blocks">${blocks.map(renderBlock).join('')}</div>` : ''}
       <a href="${sub ? `/personnages.html?sub=${sub.slug}` : '/personnages.html'}" class="pers-back-btn">
         <i class="fas fa-arrow-left"></i> Retour
       </a>
     </div>`
+}
+
+function renderBlock(block) {
+  if (!block?.type) return ''
+  switch (block.type) {
+    case 'heading': {
+      const lvl = block.data?.level || 2
+      const cls = lvl === 2 ? 'block-heading-2' : lvl === 3 ? 'block-heading-3' : 'block-heading-4'
+      return `<h${lvl} class="${cls}">${escHtml(block.data?.text || '')}</h${lvl}>`
+    }
+    case 'text':
+      return `<p class="block-text-content">${escHtml(block.data?.content || '')}</p>`
+
+    case 'image': {
+      const url = block.data?.url
+      if (!url) return ''
+      return `<figure class="block-image-wrap">
+        <img src="${url}" alt="${escHtml(block.data?.alt || '')}" loading="lazy">
+        ${block.data?.caption ? `<figcaption class="block-image-caption">${escHtml(block.data.caption)}</figcaption>` : ''}
+      </figure>`
+    }
+    case 'gallery': {
+      const imgs = (block.data?.images || []).filter(i => i.url)
+      if (!imgs.length) return ''
+      return `<div class="block-gallery-grid">
+        ${imgs.map(img => `<div class="block-gallery-item">
+          <img src="${img.url}" alt="${escHtml(img.caption || '')}" loading="lazy">
+          ${img.caption ? `<p>${escHtml(img.caption)}</p>` : ''}
+        </div>`).join('')}
+      </div>`
+    }
+    case 'stats': {
+      const items = (block.data?.items || []).filter(i => i.label || i.value)
+      if (!items.length) return ''
+      return `<div class="block-stats-grid">
+        ${items.map(i => `<div class="block-stat-item">
+          <div class="block-stat-value">${escHtml(i.value)}</div>
+          <div class="block-stat-label">${escHtml(i.label)}</div>
+        </div>`).join('')}
+      </div>`
+    }
+    case 'quote':
+      if (!block.data?.text) return ''
+      return `<blockquote class="block-quote">
+        <p class="block-quote-text">${escHtml(block.data.text)}</p>
+        ${block.data.author ? `<cite class="block-quote-author">${escHtml(block.data.author)}</cite>` : ''}
+      </blockquote>`
+
+    case 'list': {
+      const items = (block.data?.items || []).filter(Boolean)
+      if (!items.length) return ''
+      const tag = block.data?.ordered ? 'ol' : 'ul'
+      return `<${tag} class="block-list-content">
+        ${items.map(i => `<li>${escHtml(i)}</li>`).join('')}
+      </${tag}>`
+    }
+    case 'separator':
+      return '<hr class="block-separator">'
+
+    default:
+      return ''
+  }
+}
+
+function escHtml(str) {
+  if (!str) return ''
+  return String(str)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
 }
 
 function showError(msg = 'Une erreur est survenue.') {

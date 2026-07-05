@@ -14,7 +14,6 @@
 </head>
 <body style="margin:0; padding:0; background:#050911;">
 
-  <!-- Mobile sidebar overlay -->
   <div class="admin-sidebar-overlay" id="sidebar-overlay"></div>
 
   <div class="admin-layout">
@@ -49,7 +48,7 @@
           <i class="fas fa-users"></i> Utilisateurs
         </button>
 
-        <div class="admin-nav-section-label" style="margin-top:8px;">Structure</div>
+        <div class="admin-nav-section-label">Structure</div>
 
         <button class="admin-nav-item" data-panel="categories">
           <i class="fas fa-layer-group"></i> Catégories
@@ -59,7 +58,7 @@
           <i class="fas fa-sitemap"></i> Sous-catégories
         </button>
 
-        <div class="admin-nav-section-label" style="margin-top:8px;">Contenu</div>
+        <div class="admin-nav-section-label">Contenu</div>
 
         <button class="admin-nav-item" data-panel="characters">
           <i class="fas fa-users-cog"></i> Personnages
@@ -73,10 +72,11 @@
           <i class="fas fa-book-open"></i> Évènement Manga
         </button>
 
-        <div class="admin-nav-section-label" style="margin-top:8px;">Messagerie</div>
+        <div class="admin-nav-section-label">Messagerie</div>
 
-        <button class="admin-nav-item" data-panel="send-message">
-          <i class="fas fa-envelope"></i> Envoyer un message
+        <button class="admin-nav-item" data-panel="messages">
+          <i class="fas fa-envelope"></i> Messages
+          <span class="admin-nav-badge" id="unread-badge" style="display:none;background:#EF4444;"></span>
         </button>
       </nav>
 
@@ -94,7 +94,6 @@
     <!-- ── MAIN CONTENT ──────────────────────────────────── -->
     <div class="admin-main">
 
-      <!-- Top bar -->
       <div class="admin-topbar">
         <button class="admin-menu-toggle" id="menu-toggle">
           <i class="fas fa-bars"></i>
@@ -128,7 +127,7 @@
               <div class="stat-icon blue"><i class="fas fa-envelope"></i></div>
               <div class="stat-info">
                 <div class="stat-value" id="stat-messages">—</div>
-                <div class="stat-label">Messages envoyés</div>
+                <div class="stat-label">Messages</div>
               </div>
             </div>
             <div class="stat-card">
@@ -271,29 +270,73 @@
           </div>
         </div>
 
-        <!-- ── SEND MESSAGE PANEL ───────────────────────── -->
-        <div class="admin-panel" id="panel-send-message">
-          <div class="dash-card">
-            <div class="dash-card-header">
-              <div class="dash-card-title"><i class="fas fa-envelope"></i> Envoyer un message</div>
-            </div>
-            <div class="msg-form-grid">
-              <div class="event-field">
-                <label class="event-field-label">Destinataire (nom d'utilisateur)</label>
-                <input type="text" id="msg-target-username" class="event-field-input" placeholder="NomDUtilisateur">
-                <div id="msg-target-status" style="font-size:12px;margin-top:6px;font-family:'Inter',sans-serif;"></div>
+        <!-- ── MESSAGES PANEL ───────────────────────────── -->
+        <div class="admin-panel" id="panel-messages">
+
+          <div class="msgs-tabs-bar">
+            <button class="msgs-tab active" data-msgs-view="list"><i class="fas fa-list"></i> Tous les messages</button>
+            <button class="msgs-tab" data-msgs-view="compose"><i class="fas fa-paper-plane"></i> Envoyer</button>
+          </div>
+
+          <!-- List view -->
+          <div id="msgs-view-list">
+            <div id="msgs-list-content"><div class="chars-loading">Chargement…</div></div>
+            <div id="msgs-pagination" style="text-align:center;margin-top:20px;"></div>
+          </div>
+
+          <!-- Compose view -->
+          <div id="msgs-view-compose" style="display:none;">
+            <div class="dash-card">
+              <div class="dash-card-header">
+                <div class="dash-card-title"><i class="fas fa-paper-plane"></i> Envoyer un message</div>
               </div>
-              <div class="event-field">
-                <label class="event-field-label">Message</label>
-                <textarea id="msg-content" class="event-field-input" rows="5" placeholder="Votre message…"></textarea>
-              </div>
-              <div>
-                <button class="btn-save-primary" id="admin-send-msg-btn">
-                  <i class="fas fa-paper-plane"></i> Envoyer
-                </button>
+              <div class="msg-form-grid">
+                <div class="event-field">
+                  <label class="event-field-label">Destinataire (nom d'utilisateur)</label>
+                  <input type="text" id="msg-target-username" class="event-field-input" placeholder="NomDUtilisateur">
+                  <div id="msg-target-status" style="font-size:12px;margin-top:6px;font-family:'Inter',sans-serif;"></div>
+                </div>
+                <div class="event-field">
+                  <label class="event-field-label">Message</label>
+                  <textarea id="msg-content" class="event-field-input" rows="5" placeholder="Votre message…"></textarea>
+                </div>
+                <div>
+                  <button class="btn-save-primary" id="admin-send-msg-btn">
+                    <i class="fas fa-paper-plane"></i> Envoyer
+                  </button>
+                </div>
               </div>
             </div>
           </div>
+
+          <!-- Edit modal -->
+          <div class="chars-modal-overlay" id="msgs-edit-modal" style="display:none;">
+            <div class="chars-modal" style="max-width:520px;width:92vw;">
+              <div class="chars-modal-title"><i class="fas fa-pencil-alt"></i> Modifier le message</div>
+              <input type="hidden" id="msgs-edit-id">
+              <div class="event-field" style="margin-top:16px;">
+                <label class="event-field-label">Contenu</label>
+                <textarea class="event-field-input" id="msgs-edit-content" rows="6"></textarea>
+              </div>
+              <div class="chars-modal-actions" style="margin-top:16px;">
+                <button class="btn-save-primary" id="btn-msg-edit-save" style="margin-top:0;"><i class="fas fa-save"></i> Enregistrer</button>
+                <button class="btn-chars-back" id="btn-msg-edit-cancel">Annuler</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Delete confirm modal -->
+          <div class="chars-modal-overlay" id="msgs-delete-modal" style="display:none;">
+            <div class="chars-modal">
+              <div class="chars-modal-title"><i class="fas fa-exclamation-triangle"></i> Supprimer ce message ?</div>
+              <p class="chars-modal-body">Cette action est irréversible.</p>
+              <div class="chars-modal-actions">
+                <button class="btn-table-delete" id="btn-msg-delete-confirm">Supprimer</button>
+                <button class="btn-chars-back" id="btn-msg-delete-cancel">Annuler</button>
+              </div>
+            </div>
+          </div>
+
         </div>
 
         <!-- ── CATEGORIES PANEL ──────────────────────────── -->
@@ -340,6 +383,15 @@
                 <div class="event-field full">
                   <label class="event-field-label">Description</label>
                   <textarea class="event-field-input" id="cat-description" rows="3" placeholder="Description de la catégorie…"></textarea>
+                </div>
+                <div class="event-field full">
+                  <label class="event-field-label">Image</label>
+                  <div class="img-upload-wrap">
+                    <input type="url" class="event-field-input" id="cat-image-url" placeholder="https://… ou importer depuis votre ordinateur">
+                    <button type="button" class="btn-upload" id="btn-cat-upload"><i class="fas fa-upload"></i> Importer</button>
+                    <input type="file" id="cat-file-input" accept="image/*" style="display:none;">
+                  </div>
+                  <div class="img-preview-wrap" id="cat-img-preview"></div>
                 </div>
               </div>
               <div style="display:flex;gap:12px;margin-top:20px;flex-wrap:wrap;">
@@ -402,13 +454,18 @@
                   <label class="event-field-label">Ordre d'affichage</label>
                   <input type="number" class="event-field-input" id="sub-sort" value="0" min="0">
                 </div>
-                <div class="event-field">
-                  <label class="event-field-label">URL de l'image</label>
-                  <input type="url" class="event-field-input" id="sub-image-url" placeholder="https://…">
-                </div>
                 <div class="event-field full">
                   <label class="event-field-label">Description</label>
                   <textarea class="event-field-input" id="sub-description" rows="3" placeholder="Description de la sous-catégorie…"></textarea>
+                </div>
+                <div class="event-field full">
+                  <label class="event-field-label">Image</label>
+                  <div class="img-upload-wrap">
+                    <input type="url" class="event-field-input" id="sub-image-url" placeholder="https://… ou importer depuis votre ordinateur">
+                    <button type="button" class="btn-upload" id="btn-sub-upload"><i class="fas fa-upload"></i> Importer</button>
+                    <input type="file" id="sub-file-input" accept="image/*" style="display:none;">
+                  </div>
+                  <div class="img-preview-wrap" id="sub-img-preview"></div>
                 </div>
               </div>
               <div style="display:flex;gap:12px;margin-top:20px;flex-wrap:wrap;">
@@ -434,7 +491,6 @@
         <!-- ── CHARACTERS PANEL ──────────────────────────── -->
         <div class="admin-panel" id="panel-characters">
 
-          <!-- Sub-nav: list / add / edit view -->
           <div class="chars-view" id="chars-view-list">
             <div class="dash-card-header" style="margin-bottom:20px;">
               <div class="dash-card-title"><i class="fas fa-users-cog"></i> Personnages</div>
@@ -442,12 +498,9 @@
                 <i class="fas fa-plus"></i> Ajouter un personnage
               </button>
             </div>
-
             <div class="chars-category-tabs" id="chars-category-tabs"></div>
-
-            <div id="chars-list-content">
-              <div class="chars-loading">Chargement…</div>
-            </div>
+            <div id="chars-list-content"><div class="chars-loading">Chargement…</div></div>
+            <div id="chars-pagination" style="text-align:center;margin-top:20px;"></div>
           </div>
 
           <!-- Add / Edit form view -->
@@ -512,16 +565,46 @@
                   <input type="number" class="event-field-input" id="char-sort" value="0" min="0">
                 </div>
                 <div class="event-field full">
-                  <label class="event-field-label">URL de l'image</label>
-                  <input type="url" class="event-field-input" id="char-image-url" placeholder="https://…">
+                  <label class="event-field-label">Image principale</label>
+                  <div class="img-upload-wrap">
+                    <input type="url" class="event-field-input" id="char-image-url" placeholder="https://… ou importer depuis votre ordinateur">
+                    <button type="button" class="btn-upload" id="btn-char-upload"><i class="fas fa-upload"></i> Importer</button>
+                    <input type="file" id="char-file-input" accept="image/*" style="display:none;">
+                  </div>
+                  <div class="img-preview-wrap" id="char-img-preview"></div>
                 </div>
                 <div class="event-field full">
-                  <label class="event-field-label">Description</label>
-                  <textarea class="event-field-input" id="char-description" rows="5" placeholder="Biographie, histoire du personnage…"></textarea>
+                  <label class="event-field-label">Description courte</label>
+                  <textarea class="event-field-input" id="char-description" rows="4" placeholder="Résumé du personnage (affiché en haut de la fiche)…"></textarea>
                 </div>
               </div>
 
-              <div style="display:flex;gap:12px;margin-top:20px;flex-wrap:wrap;">
+              <!-- Block editor -->
+              <div class="block-editor-section">
+                <div class="block-editor-header">
+                  <div class="block-editor-title"><i class="fas fa-th-large"></i> Contenu de la page</div>
+                  <div class="block-add-wrap">
+                    <button type="button" class="btn-block-add" id="btn-block-add">
+                      <i class="fas fa-plus"></i> Ajouter un bloc
+                    </button>
+                    <div class="block-type-menu" id="block-type-menu" style="display:none;">
+                      <button type="button" data-block-type="heading"><i class="fas fa-heading"></i> Titre</button>
+                      <button type="button" data-block-type="text"><i class="fas fa-align-left"></i> Texte</button>
+                      <button type="button" data-block-type="image"><i class="fas fa-image"></i> Image</button>
+                      <button type="button" data-block-type="gallery"><i class="fas fa-images"></i> Galerie</button>
+                      <button type="button" data-block-type="stats"><i class="fas fa-chart-bar"></i> Statistiques</button>
+                      <button type="button" data-block-type="quote"><i class="fas fa-quote-left"></i> Citation</button>
+                      <button type="button" data-block-type="list"><i class="fas fa-list-ul"></i> Liste</button>
+                      <button type="button" data-block-type="separator"><i class="fas fa-minus"></i> Séparateur</button>
+                    </div>
+                  </div>
+                </div>
+                <div class="block-list" id="block-list">
+                  <div class="block-list-empty">Aucun bloc. Cliquez sur "Ajouter un bloc" pour enrichir la page du personnage.</div>
+                </div>
+              </div>
+
+              <div style="display:flex;gap:12px;margin-top:24px;flex-wrap:wrap;">
                 <button class="btn-save-primary" id="btn-char-save">
                   <i class="fas fa-save"></i> Enregistrer
                 </button>
@@ -531,7 +614,6 @@
             </div>
           </div>
 
-          <!-- Delete confirm modal -->
           <div class="chars-modal-overlay" id="chars-delete-modal" style="display:none;">
             <div class="chars-modal">
               <div class="chars-modal-title"><i class="fas fa-exclamation-triangle"></i> Confirmer la suppression</div>
