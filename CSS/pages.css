@@ -102,8 +102,14 @@
 .header-user-dropdown {
   display: none;
   position: absolute;
-  top: calc(100% + 12px);
+  top: 100%;           /* flush to parent bottom — no gap */
   right: 0;
+  padding-top: 14px;   /* invisible bridge fills the visual spacing */
+  background: transparent;
+  z-index: 2000;
+}
+
+.header-user-dropdown-inner {
   background: rgba(8, 13, 24, 0.96);
   backdrop-filter: blur(24px);
   border: 1px solid rgba(56, 189, 248, 0.15);
@@ -111,17 +117,19 @@
   min-width: 170px;
   padding: 6px;
   box-shadow: 0 16px 40px rgba(0,0,0,0.7);
-  z-index: 2000;
-}
-
-.header-user-menu:hover .header-user-dropdown {
   display: flex;
   flex-direction: column;
   gap: 2px;
 }
 
+.header-user-menu:hover .header-user-dropdown {
+  display: block;
+}
+
 .header-user-dropdown a,
-.header-user-dropdown button {
+.header-user-dropdown button,
+.header-user-dropdown-inner a,
+.header-user-dropdown-inner button {
   display: flex;
   align-items: center;
   gap: 10px;

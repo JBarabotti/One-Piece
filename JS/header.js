@@ -152,10 +152,12 @@ export async function updateHeaderAuth() {
             <span class="header-username-label">${profile.username}</span>
           </a>
           <div class="header-user-dropdown">
-            <a href="/profile.html"><i class="fas fa-user"></i> Profil</a>
-            <a href="/messages.html"><i class="fas fa-envelope"></i> Messages</a>
-            ${profile.role === 'admin' ? `<a href="/admin.html"><i class="fas fa-crown"></i> Admin</a>` : ''}
-            <button class="header-signout-btn" id="header-signout"><i class="fas fa-sign-out-alt"></i> Déconnexion</button>
+            <div class="header-user-dropdown-inner">
+              <a href="/profile.html"><i class="fas fa-user"></i> Profil</a>
+              <a href="/messages.html"><i class="fas fa-envelope"></i> Messages</a>
+              ${profile.role === 'admin' ? `<a href="/admin.html"><i class="fas fa-crown"></i> Admin</a>` : ''}
+              <button class="header-signout-btn" id="header-signout"><i class="fas fa-sign-out-alt"></i> Déconnexion</button>
+            </div>
           </div>
         </div>
       `
