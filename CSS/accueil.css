@@ -1,0 +1,467 @@
+/* Section Hero */
+.hero {
+    display: block;
+    justify-content: center;
+    align-items: center;
+    margin: 6% 8%;
+    background: rgba(15, 23, 42, 0.90);
+    border-radius: 5px;
+    height: 100%;
+    padding-bottom: 40px;
+}
+
+h1 {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding-top: 20px;
+    color: #FDBA74;
+    font-family: "OnePiece", sans-serif;
+    font-size: 70px;
+    gap: 10px;
+}
+
+h1 span {
+    font-family: "Pirata One", cursive;
+    font-size: 50px;
+}
+
+.bloc {
+    display: flex;
+    flex-direction: column;
+    gap: 50px;
+    justify-content: center;
+    align-items: center;
+    margin-top: 50px;
+}
+
+.bloc-video-intro {
+    width:600px;
+    max-width:90%;
+    border-radius:15px;
+    box-shadow:0 0 30px rgba(0,0,0,0.6);
+    object-fit:cover;
+    filter:contrast(110%) brightness(85%);
+    border: 2px solid #F59E0B;
+}
+
+.video-fullscreen {
+    cursor: pointer;
+    transition: transform 0.5s ease, filter 0.5s ease, opacity 0.5s ease;
+}
+
+.video-fullscreen:hover {
+    transform: scale(1.05);
+    filter: contrast(120%) brightness(90%);
+}
+
+.video-fullscreen.zoom-in {
+    transform: scale(1.05);
+    filter: contrast(120%) brightness(90%);
+}
+
+.video-fullscreen.fade-transition {
+    animation: fadeZoom 0.5s ease forwards;
+}
+
+@keyframes fadeZoom {
+    0% {
+        opacity: 1;
+        transform: scale(1);
+    }
+    50% {
+        opacity: 0.7;
+        transform: scale(1.08);
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+.bloc p {
+    font-family: "Pirata One", cursive;
+    font-size: 25px;
+    color: #F59E0B;
+}
+
+.intro {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 5% 15%;
+    border-right: 5px solid #F59E0B;
+    border-left: 5px solid #F59E0B;
+    border-radius: 5px;
+    padding: 25px;
+    background-color: rgba(15, 23, 42, 0.50);
+}
+
+.intro p {
+    color: #F8FAFC;
+    line-height: 2.2rem;
+    font-family: "Cormorant Garamond", serif;
+    font-size: 20px;
+}
+
+.intro p a {
+    text-decoration: none;
+    color: #F59E0B;
+    position: relative;
+    font-weight: 600;
+    transition: color 0.25s ease;
+    display: inline-block;
+}
+
+.intro p a::after {
+    content: '';
+    position: absolute;
+    width: 100%;
+    transform: scaleX(0);
+    height: 2px;
+    bottom: -0.2px;
+    left: 0;
+    background-color: #F59E0B;
+    transform-origin: bottom right;
+    transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.intro p a:hover {
+    color: #FBBF24;
+}
+
+.intro p a:hover::after {
+    transform: scaleX(1);
+    transform-origin: bottom left;
+}
+
+/* --- Variables Thématiques de Couleur --- */
+.card-histoire {
+    --accent-color: #EF4444;
+    --accent-glow: rgba(239, 68, 68, 0.45);
+}
+.card-personnages {
+    --accent-color: #38BDF8;
+    --accent-glow: rgba(56, 189, 248, 0.45);
+}
+.card-fruits {
+    --accent-color: #A855F7;
+    --accent-glow: rgba(168, 85, 247, 0.45);
+}
+.card-lieux {
+    --accent-color: #10B981;
+    --accent-glow: rgba(16, 185, 129, 0.45);
+}
+
+/* --- Container Cartes --- */
+.cards {
+    display: flex;
+    gap: 16px;
+    width: 100%;
+    max-width: 1200px;
+    margin: 50px auto 30px auto;
+    padding: 10px 20px;
+    height: 520px;
+    box-sizing: border-box;
+}
+
+/* --- Style Individuel d'une Carte --- */
+.card {
+    position: relative;
+    flex: 1;
+    height: 100%;
+    border-radius: 16px;
+    overflow: hidden;
+    cursor: pointer;
+    background: #0b1329;
+    border: 2px solid rgba(245, 158, 11, 0.25);
+    transition: 
+        flex 0.85s cubic-bezier(0.4, 0, 0.2, 1),
+        transform 0.5s cubic-bezier(0.4, 0, 0.2, 1),
+        border-color 0.5s ease,
+        box-shadow 0.5s ease;
+}
+
+/* --- Badge Thématique en Haut à Gauche --- */
+.card-tag {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    padding: 6px 14px;
+    font-family: "OnePiece", sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    border-radius: 30px;
+    background: rgba(8, 13, 24, 0.85);
+    border: 1px solid var(--accent-color);
+    color: var(--accent-color);
+    text-shadow: 0 1px 2px rgba(0,0,0,0.5);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    transition: background 0.3s ease, color 0.3s ease, transform 0.3s ease;
+    z-index: 10;
+}
+
+/* --- Image de Fond de la Carte --- */
+.card img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    filter: brightness(0.65) contrast(1.1);
+    transition: 
+        transform 0.85s cubic-bezier(0.4, 0, 0.2, 1),
+        filter 0.8s ease;
+}
+
+/* --- Overlay de Dégradé Ombré --- */
+.card-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+        to top,
+        rgba(8, 13, 24, 0.95) 0%,
+        rgba(8, 13, 24, 0.65) 45%,
+        rgba(8, 13, 24, 0.15) 100%
+    );
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 30px;
+    transition: background 0.5s ease;
+    z-index: 5;
+}
+
+/* --- Contenu de la Carte --- */
+.card-content {
+    transform: translateY(70px);
+    transition: transform 0.85s cubic-bezier(0.4, 0, 0.2, 1);
+    will-change: transform;
+}
+
+.card-content h3 {
+    font-family: "Pirata One", cursive;
+    font-size: 34px;
+    color: #F8FAFC;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.95);
+    margin-bottom: 8px;
+    transition: color 0.3s ease;
+}
+
+.card-content p {
+    font-family: "Cormorant Garamond", serif;
+    font-size: 17px;
+    color: #E2E8F0;
+    line-height: 1.45rem;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: 
+        opacity 0.6s cubic-bezier(0.4, 0, 0.2, 1) 0.1s,
+        transform 0.6s cubic-bezier(0.4, 0, 0.2, 1) 0.1s;
+    margin-bottom: 18px;
+}
+
+.card-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-family: "OnePiece", sans-serif;
+    font-size: 16px;
+    color: var(--accent-color);
+    font-weight: 600;
+    text-decoration: none;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: 
+        opacity 0.6s ease 0.2s, 
+        transform 0.6s ease 0.2s, 
+        gap 0.3s ease,
+        color 0.4s ease;
+}
+
+.card-btn i {
+    font-size: 12px;
+    transition: transform 0.2s ease;
+}
+
+.card-btn:hover {
+    color: #F8FAFC;
+    gap: 12px;
+}
+
+.card-btn:hover i {
+    transform: translateX(2px);
+}
+
+/* ==========================================
+   ÉTATS DE SURVOL (INTERACTION ACCORDÉON)
+   ========================================== */
+
+/* 1. Assombrissement et compression collective au survol de la zone */
+.cards:hover .card {
+    flex: 0.6;
+    filter: brightness(0.35) grayscale(0.4);
+    border-color: rgba(255, 255, 255, 0.05);
+}
+
+/* 2. Expansion et mise en valeur de la carte survolée */
+.cards .card:hover {
+    flex: 3;
+    filter: brightness(1.1) grayscale(0);
+    border-color: var(--accent-color);
+    box-shadow: 
+        0 16px 36px var(--accent-glow),
+        0 0 0 1px var(--accent-color) inset;
+    transform: translateY(-4px);
+}
+
+/* Zoom subtil de l'image survolée */
+.cards .card:hover img {
+    transform: scale(1.05);
+    filter: brightness(0.6) contrast(1.15);
+}
+
+/* Badge vibrant au survol */
+.cards .card:hover .card-tag {
+    background: var(--accent-color);
+    color: #080d18;
+    box-shadow: 0 0 15px var(--accent-glow);
+    transform: scale(1.05);
+}
+
+/* Révélation dynamique du contenu textuel */
+.cards .card:hover .card-content {
+    transform: translateY(0);
+}
+
+.cards .card:hover .card-content h3 {
+    color: var(--accent-color);
+}
+
+.cards .card:hover .card-content p {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.cards .card:hover .card-content .card-btn {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+
+/* Section Évènements actuels */
+.actuel {
+    padding-top: 60px;
+}
+
+.actuel h2 {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: "Pirata One", cursive;
+    font-size: 40px;
+    color: #FDBA74;
+}
+
+.actuels {
+    margin: 5% 15%;
+    border-right: 5px solid #F59E0B;
+    border-left: 5px solid #F59E0B;
+    border-radius: 5px;
+    padding: 25px;
+    background-color: rgba(15, 23, 42, 0.50);
+}
+
+.anime {
+    margin-bottom: 100px;
+}
+
+.actuels h3 {
+    font-size: 30px;
+    color: #F8FAFC;
+    font-family: "Pirata One", cursive;
+    letter-spacing: 2px;
+    margin-bottom: 20px;
+}
+
+.actuels h4 {
+    font-family: "OnePiece", sans-sérif;
+    font-size: 25px;
+    color: #F8FAFC;
+    margin-bottom: 10px;
+}
+
+.actuels img {
+    width: 300px;
+    height: 400px;
+    object-fit: cover;
+}
+
+.actuels p {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    color: #F8FAFC;
+    font-family: "Cormorant Garamond", serif;
+    font-size: 20px;
+}
+
+.actuels p span {
+    display: flex;
+    justify-content: flex-end;
+}
+
+/* ==========================================
+   COMPORTEMENT RESPONSIVE (MOBILE & TABLETS)
+   ========================================== */
+@media (max-width: 900px) {
+    .cards {
+        flex-direction: column;
+        height: auto;
+        padding: 10px;
+        gap: 20px;
+    }
+    
+    .card {
+        height: 280px;
+        flex: none !important;
+        width: 100%;
+    }
+    
+    /* Désactiver les rétrécissements collectifs sur mobile */
+    .cards:hover .card {
+        flex: none;
+        filter: none;
+        border-color: rgba(245, 158, 11, 0.25);
+    }
+    
+    /* Toujours afficher les informations sur mobile */
+    .card-content {
+        transform: translateY(0);
+    }
+    
+    .card-content p {
+        opacity: 1;
+        transform: translateY(0);
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        margin-bottom: 8px;
+    }
+    
+    .card-btn {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    .cards .card:hover {
+        transform: none;
+        box-shadow: 0 8px 24px var(--accent-glow);
+    }
+}

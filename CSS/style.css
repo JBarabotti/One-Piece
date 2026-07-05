@@ -1,0 +1,462 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap');
+
+@font-face {
+    font-family: "OnePiece";
+    src: url("/fonts/onepiece.ttf") format("truetype");
+}
+
+/* ─── Reset ───────────────────────────────────────────────── */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* ─── Global ──────────────────────────────────────────────── */
+body {
+    font-family: 'Inter', sans-serif;
+    min-height: 100vh;
+}
+
+.background {
+    position: fixed;
+    inset: 0;
+
+    background-image: url(/IMG/Background-home.png);
+    background-size: cover;
+    background-position: center;
+
+    filter: brightness(70%) contrast(125%);
+
+
+    z-index: -1;
+}
+
+/* ─── Header ──────────────────────────────────────────────── */
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: rgba(10, 18, 36, 0.95);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-bottom: 1px solid rgba(56, 189, 248, 0.15);
+    padding: 0 2%;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    box-shadow: 0 4px 40px rgba(0, 0, 0, 0.5);
+    /* Transition pour l'apparition au lancement */
+    transition:
+        opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1),
+        transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* ─── Nav ─────────────────────────────────────────────────── */
+nav {
+    margin-right: 280px;
+    font-family: "OnePiece", sans-serif;
+}
+
+nav ul {
+    list-style: none;
+    display: flex;
+    gap: 6px;
+}
+
+/* ─── Top-level items ─────────────────────────────────────── */
+nav>ul>li {
+    padding: 18px 20px;
+    position: relative;
+}
+
+nav>ul>li>a {
+    color: #F8FAFC;
+    text-decoration: none;
+    font-size: 22px;
+    font-weight: 500;
+    letter-spacing: 0.02em;
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    transition: color 0.25s ease;
+    white-space: nowrap;
+    position: relative;
+}
+
+/* Underline animée */
+nav>ul>li>a::after {
+    content: '';
+    position: absolute;
+    bottom: -8px;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, #38BDF8, #818CF8);
+    border-radius: 2px;
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+nav>ul>li:hover>a {
+    color: #38BDF8;
+}
+
+nav>ul>li:hover>a::after {
+    transform: scaleX(1);
+}
+
+/* ─── Caret icons ─────────────────────────────────────────── */
+.fas {
+    font-size: 11px;
+    float: none !important;
+    margin-left: 0 !important;
+    padding-top: 0 !important;
+    display: inline-block;
+    transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), color 0.25s ease;
+    opacity: 0.6;
+}
+
+nav>ul>li:hover>a .fas {
+    transform: rotate(90deg);
+    color: #38BDF8;
+    opacity: 1;
+}
+
+/* ─── Dropdown level 1 ────────────────────────────────────── */
+/*
+    top: 100% sans gap + padding-top: 8px → la souris ne quitte
+    jamais la zone hover du <li> quand elle descend vers le panel.
+*/
+.dropdown {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    padding-top: 8px;
+    min-width: 210px;
+    /* Glassmorphism */
+    background: rgba(8, 18, 40, 0.92);
+    backdrop-filter: blur(28px);
+    -webkit-backdrop-filter: blur(28px);
+    border: 1px solid rgba(56, 189, 248, 0.14);
+    border-radius: 14px;
+    box-shadow:
+        0 12px 40px rgba(0, 0, 0, 0.6),
+        0 0 0 1px rgba(255, 255, 255, 0.04) inset,
+        0 0 30px rgba(56, 189, 248, 0.04);
+    /* Animation */
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-8px) scale(0.97);
+    transform-origin: top left;
+    transition:
+        opacity 0.28s cubic-bezier(0.22, 1, 0.36, 1),
+        transform 0.28s cubic-bezier(0.22, 1, 0.36, 1),
+        visibility 0.28s;
+    pointer-events: none;
+}
+
+nav>ul>li:hover>.dropdown {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0) scale(1);
+    pointer-events: all;
+}
+
+.dropdown>ul {
+    display: flex !important;
+    flex-direction: column;
+    gap: 2px;
+    margin: 0 !important;
+    padding: 4px;
+}
+
+.dropdown>ul>li {
+    width: 100% !important;
+    padding: 0 !important;
+    position: relative;
+}
+
+/* Divider */
+.dropdown>ul>li+li {
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+    padding-top: 2px !important;
+    margin-top: 2px;
+}
+
+/* Links niveau 1 */
+.dropdown>ul>li>a {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    color: #F8FAFC;
+    text-decoration: none;
+    font-size: 20px;
+    font-weight: 500;
+    padding: 10px 14px;
+    border-radius: 9px;
+    gap: 10px;
+    transition:
+        background 0.2s ease,
+        color 0.2s ease,
+        padding-left 0.22s ease;
+    white-space: nowrap;
+}
+
+.dropdown>ul>li>a::after {
+    display: none !important;
+}
+
+.dropdown>ul>li:hover>a {
+    background: rgba(56, 189, 248, 0.09);
+    color: #38BDF8;
+    padding-left: 18px;
+}
+
+.dropdown>ul>li:hover>a .fas {
+    transform: rotate(90deg);
+    color: #38BDF8;
+    opacity: 1;
+}
+
+/* ─── Dropdown level 2 ────────────────────────────────────── */
+/*
+    left: 100% sans gap + padding-left: 10px → même logique
+    horizontalement, le hover ne se coupe pas entre les deux panneaux.
+*/
+.dropdown1 {
+    position: absolute;
+    top: -8px;
+    left: 100%;
+    padding-left: 10px;
+    min-width: 220px;
+    /* Glassmorphism — teinte violette pour différencier */
+    background: rgba(6, 14, 32, 0.95);
+    backdrop-filter: blur(28px);
+    -webkit-backdrop-filter: blur(28px);
+    border: 1px solid rgba(129, 140, 248, 0.15);
+    border-radius: 14px;
+    box-shadow:
+        0 12px 40px rgba(0, 0, 0, 0.65),
+        0 0 0 1px rgba(255, 255, 255, 0.04) inset,
+        0 0 24px rgba(129, 140, 248, 0.06);
+    /* Animation */
+    opacity: 0;
+    visibility: hidden;
+    transform: translateX(-8px) scale(0.97);
+    transform-origin: top left;
+    transition:
+        opacity 0.25s cubic-bezier(0.22, 1, 0.36, 1),
+        transform 0.25s cubic-bezier(0.22, 1, 0.36, 1),
+        visibility 0.25s;
+    pointer-events: none;
+}
+
+.dropdown>ul>li:hover>.dropdown1 {
+    opacity: 1;
+    visibility: visible;
+    transform: translateX(0) scale(1);
+    pointer-events: all;
+}
+
+.dropdown1>ul {
+    display: flex !important;
+    flex-direction: column;
+    gap: 2px;
+    margin: 0 !important;
+    padding: 4px;
+}
+
+.dropdown1>ul>li {
+    width: 100% !important;
+    padding: 0 !important;
+}
+
+.dropdown1 ul li+li {
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+    padding-top: 2px !important;
+    margin-top: 2px;
+}
+
+.dropdown1 ul li a {
+    display: block;
+    color: #F8FAFC;
+    text-decoration: none;
+    font-size: 17px;
+    font-weight: 400;
+    padding: 9px 14px;
+    border-radius: 9px;
+    transition:
+        background 0.2s ease,
+        color 0.2s ease,
+        padding-left 0.22s ease;
+    white-space: nowrap;
+}
+
+.dropdown1 ul li a::after {
+    display: none !important;
+}
+
+.dropdown1 ul li a:hover {
+    background: rgba(129, 140, 248, 0.11);
+    color: #818CF8;
+    padding-left: 18px;
+}
+
+/* ─── Burger (mobile placeholder) ────────────────────────── */
+.burger-menu {
+    display: none;
+}
+
+/* ══════════════════════════════════════════════════════════════
+   PRELOADER — One Piece
+══════════════════════════════════════════════════════════════ */
+
+/* Overlay plein écran */
+.preloader {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    background: #060d1a;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 36px;
+    transition: opacity 0.7s ease, visibility 0.7s ease;
+}
+
+.preloader.hidden {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+}
+
+/* ─── Wrapper SVG ─────────────────────────────────────────── */
+.preloader-svg-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Le SVG potrace : on le rend visible et animé */
+.preloader .preloader-content svg {
+    width: 260px;
+    height: auto;
+    /* Couleur ivoire sur fond sombre */
+    fill: #f0e6d0 !important;
+    filter:
+        drop-shadow(0 0 14px rgba(56, 189, 248, 0.5))
+        drop-shadow(0 0 40px rgba(56, 189, 248, 0.2));
+    animation:
+        skullAppear 0.9s cubic-bezier(0.34, 1.56, 0.64, 1) 0.2s both,
+        skullPulse  2.8s ease-in-out 1.4s infinite;
+}
+
+/* Apparition avec bounce */
+@keyframes skullAppear {
+    from {
+        opacity: 0;
+        transform: scale(0.3) rotate(-8deg);
+    }
+    70% {
+        transform: scale(1.06) rotate(2deg);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1) rotate(0deg);
+    }
+}
+
+/* Pulsation douce en boucle */
+@keyframes skullPulse {
+    0%, 100% {
+        filter:
+            drop-shadow(0 0 14px rgba(56, 189, 248, 0.5))
+            drop-shadow(0 0 40px rgba(56, 189, 248, 0.2));
+        transform: scale(1);
+    }
+    50% {
+        filter:
+            drop-shadow(0 0 28px rgba(56, 189, 248, 0.9))
+            drop-shadow(0 0 70px rgba(129, 140, 248, 0.4));
+        transform: scale(1.04);
+    }
+}
+
+/* ─── Contenu (wrapper flex) ──────────────────────────────── */
+.preloader-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 32px;
+}
+
+/* ─── Barre de progression ────────────────────────────────── */
+.preloader-bar-track {
+    width: 220px;
+    height: 3px;
+    background: rgba(255, 255, 255, 0.07);
+    border-radius: 99px;
+    overflow: hidden;
+    animation: fadeInUp 0.4s ease 0.5s both;
+}
+
+.preloader-bar-fill {
+    height: 100%;
+    width: 0%;
+    background: linear-gradient(90deg, #38BDF8, #818CF8);
+    border-radius: 99px;
+    animation: barFill 3.2s cubic-bezier(0.4, 0, 0.2, 1) 0.6s both;
+    box-shadow: 0 0 10px rgba(56, 189, 248, 0.7);
+}
+
+@keyframes barFill {
+    from { width: 0%; }
+    to   { width: 100%; }
+}
+
+/* ─── Titre "ONE PIECE" ───────────────────────────────────── */
+.preloader-title {
+    font-family: 'Inter', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.35em;
+    text-transform: uppercase;
+    color: transparent;
+    background: linear-gradient(90deg, #38BDF8, #818CF8, #38BDF8);
+    background-size: 200% auto;
+    -webkit-background-clip: text;
+    background-clip: text;
+    animation:
+        fadeInUp 0.5s ease 0.4s both,
+        shimmer  2.2s linear 1s infinite;
+}
+
+@keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(12px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes shimmer {
+    from { background-position: 0% center; }
+    to   { background-position: 200% center; }
+}
+
+/* ══════════════════════════════════════════════════════════════
+   LANCEMENT DU SITE
+══════════════════════════════════════════════════════════════ */
+
+/* Bloque le scroll pendant le preloader */
+body.loading {
+    overflow: hidden;
+}
+
+/* Header masqué par défaut pendant le preloader (évite tout flash visuel) */
+body.loading header {
+    opacity: 0;
+    transform: translateY(-20px);
+    pointer-events: none;
+}
