@@ -318,7 +318,14 @@ function setupAdminMessage() {
 let charsCategories = []
 let charsAll = []
 let charsActiveCat = null
+let charsActiveGroup = null
 let charsDeleteTarget = null
+
+const GROUP_META = {
+  pirates:          { label: 'Pirates',          icon: 'skull-crossbones', color: '#F59E0B' },
+  gouvernement:     { label: 'Gouvernement',      icon: 'anchor',           color: '#38BDF8' },
+  revolutionnaires: { label: 'Révolutionnaires',  icon: 'fist-raised',      color: '#EF4444' },
+}
 
 function setupCharacters() {
   document.getElementById('btn-add-character').addEventListener('click', () => openCharForm())
@@ -329,10 +336,6 @@ function setupCharacters() {
   document.getElementById('btn-char-delete-cancel').addEventListener('click', () => {
     document.getElementById('chars-delete-modal').style.display = 'none'
   })
-  document.getElementById('chars-cat-filter').addEventListener('change', (e) => {
-    charsActiveCat = e.target.value || null
-    renderCharList()
-  })
 
   // Load when panel is first opened
   document.querySelector('.admin-nav-item[data-panel="characters"]').addEventListener('click', loadCharacters)
@@ -341,26 +344,74 @@ function setupCharacters() {
 async function loadCharacters() {
   const [{ data: cats }, { data: chars }] = await Promise.all([
     supabase.from('character_categories').select('*').order('sort_order'),
-    supabase.from('characters').select('*, character_categories(name)').order('sort_order'),
+    supabase.from('characters').select('*, character_categories(name, group_name)').order('sort_order'),
   ])
   charsCategories = cats || []
   charsAll = chars || []
-  renderCatTabs()
-  renderCatFilterSelect()
+  renderGroupTabs()
   renderCharList()
   populateCatSelect()
 }
 
-function renderCatTabs() {
+function groupedCategories() {
+  const groups = {}
+  charsCategories.forEach(c => {
+    const g = c.group_name || 'autres'
+    if (!groups[g]) groups[g] = []
+    groups[g].push(c)
+  })
+  return groups
+}
+
+function renderGroupTabs() {
   const el = document.getElementById('chars-category-tabs')
-  el.innerHTML = `<button class="chars-cat-tab${!charsActiveCat ? ' active' : ''}" data-cat="">Tous</button>` +
-    charsCategories.map(c =>
-      `<button class="chars-cat-tab${charsActiveCat === c.id ? ' active' : ''}" data-cat="${c.id}">${c.name}</button>`
-    ).join('')
+  const groups = groupedCategories()
+
+  let html = `<button class="chars-group-tab${!charsActiveGroup && !charsActiveCat ? ' active' : ''}" data-group="" data-cat="">Tous</button>`
+
+  Object.entries(groups).forEach(([gKey, cats]) => {
+    const meta = GROUP_META[gKey] || { label: gKey, icon: 'users', color: '#94A3B8' }
+    const groupActive = charsActiveGroup === gKey && !charsActiveCat
+    html += `<div class="chars-tab-group">
+      <button class="chars-group-tab${groupActive ? ' active' : ''}" data-group="${gKey}" data-cat="" style="--gcolor:${meta.color}">
+        <i class="fas fa-${meta.icon}"></i> ${meta.label}
+      </button>
+      <div class="chars-subcat-row" data-for-group="${gKey}" style="${charsActiveGroup === gKey ? '' : 'display:none'}">
+        ${cats.map(c => `<button class="chars-cat-tab${charsActiveCat === c.id ? ' active' : ''}" data-cat="${c.id}" data-group="${gKey}">${c.name}</button>`).join('')}
+      </div>
+    </div>`
+  })
+
+  el.innerHTML = html
+
+  // Group tab clicks
+  el.querySelectorAll('.chars-group-tab').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const g = btn.dataset.group
+      const wasActive = charsActiveGroup === g
+      charsActiveGroup = wasActive ? null : (g || null)
+      charsActiveCat = null
+
+      el.querySelectorAll('.chars-group-tab').forEach(b => b.classList.remove('active'))
+      el.querySelectorAll('.chars-subcat-row').forEach(r => r.style.display = 'none')
+
+      if (!wasActive && g) {
+        btn.classList.add('active')
+        const row = el.querySelector(`.chars-subcat-row[data-for-group="${g}"]`)
+        if (row) row.style.display = 'flex'
+      } else if (!g) {
+        btn.classList.add('active')
+      }
+
+      renderCharList()
+    })
+  })
+
+  // Subcategory tab clicks
   el.querySelectorAll('.chars-cat-tab').forEach(btn => {
     btn.addEventListener('click', () => {
       charsActiveCat = btn.dataset.cat || null
-      document.getElementById('chars-cat-filter').value = charsActiveCat || ''
+      charsActiveGroup = btn.dataset.group || null
       el.querySelectorAll('.chars-cat-tab').forEach(b => b.classList.remove('active'))
       btn.classList.add('active')
       renderCharList()
@@ -368,41 +419,73 @@ function renderCatTabs() {
   })
 }
 
-function renderCatFilterSelect() {
-  const sel = document.getElementById('chars-cat-filter')
-  sel.innerHTML = '<option value="">Toutes les catégories</option>' +
-    charsCategories.map(c => `<option value="${c.id}">${c.name}</option>`).join('')
-}
-
 function populateCatSelect() {
   const sel = document.getElementById('char-category')
-  sel.innerHTML = '<option value="">Choisir une catégorie</option>' +
-    charsCategories.map(c => `<option value="${c.id}">${c.name}</option>`).join('')
+  const groups = groupedCategories()
+
+  sel.innerHTML = '<option value="">Choisir une catégorie</option>'
+  Object.entries(groups).forEach(([gKey, cats]) => {
+    const meta = GROUP_META[gKey] || { label: gKey }
+    const og = document.createElement('optgroup')
+    og.label = meta.label
+    cats.forEach(c => {
+      const opt = document.createElement('option')
+      opt.value = c.id
+      opt.textContent = c.name
+      og.appendChild(opt)
+    })
+    sel.appendChild(og)
+  })
 }
 
 function renderCharList() {
-  const filtered = charsActiveCat
-    ? charsAll.filter(c => c.category_id === charsActiveCat)
-    : charsAll
+  let filtered = charsAll
+  if (charsActiveCat) {
+    filtered = charsAll.filter(c => c.category_id === charsActiveCat)
+  } else if (charsActiveGroup) {
+    const groupCatIds = new Set(
+      charsCategories.filter(c => c.group_name === charsActiveGroup).map(c => c.id)
+    )
+    filtered = charsAll.filter(c => groupCatIds.has(c.category_id))
+  }
 
   const container = document.getElementById('chars-list-content')
 
   if (!filtered.length) {
-    container.innerHTML = '<div class="chars-empty">Aucun personnage. Cliquez sur <strong>Ajouter</strong> pour commencer.</div>'
+    container.innerHTML = '<div class="chars-empty">Aucun personnage dans cette catégorie. Cliquez sur <strong>Ajouter</strong> pour commencer.</div>'
     return
   }
 
-  // Group by category
+  // Group by category_id preserving sort_order
+  const catMap = {}
+  charsCategories.forEach(c => { catMap[c.id] = c })
+
   const groups = {}
   filtered.forEach(c => {
     const key = c.category_id
-    if (!groups[key]) groups[key] = { name: c.character_categories?.name || 'Sans catégorie', items: [] }
+    if (!groups[key]) {
+      const cat = catMap[key]
+      const gMeta = cat ? (GROUP_META[cat.group_name] || {}) : {}
+      groups[key] = {
+        name: c.character_categories?.name || 'Sans catégorie',
+        groupLabel: gMeta.label || '',
+        groupColor: gMeta.color || '#64748B',
+        sortOrder: cat?.sort_order ?? 999,
+        items: [],
+      }
+    }
     groups[key].items.push(c)
   })
 
-  container.innerHTML = Object.values(groups).map(g => `
+  const sorted = Object.values(groups).sort((a, b) => a.sortOrder - b.sortOrder)
+
+  container.innerHTML = sorted.map(g => `
     <div class="chars-group">
-      <div class="chars-group-header">${g.name} <span class="chars-group-count">${g.items.length}</span></div>
+      <div class="chars-group-header">
+        ${g.groupLabel ? `<span class="chars-group-badge" style="background:${g.groupColor}22;color:${g.groupColor};border-color:${g.groupColor}44">${g.groupLabel}</span>` : ''}
+        ${g.name}
+        <span class="chars-group-count">${g.items.length}</span>
+      </div>
       <div class="chars-grid">
         ${g.items.map(c => renderCharCard(c)).join('')}
       </div>
