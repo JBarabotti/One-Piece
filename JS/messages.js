@@ -16,6 +16,9 @@ let conversations = []
 
   const { data } = await supabase.from('profiles').select('*').eq('id', currentUser.id).maybeSingle()
   currentProfile = data
+  if (currentProfile?.faction) {
+    document.body.dataset.faction = currentProfile.faction
+  }
 
   await loadConversations()
   setupSearch()

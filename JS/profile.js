@@ -32,6 +32,10 @@ function renderAvatarDisplay(p) {
   }
 }
 
+function applyFactionTheme(faction) {
+  document.body.dataset.faction = faction || 'none'
+}
+
 async function loadProfile() {
   currentUser = await requireAuth()
   if (!currentUser) return
@@ -40,6 +44,7 @@ async function loadProfile() {
   if (!data) return
   profile = data
 
+  applyFactionTheme(profile.faction)
   renderAvatarDisplay(profile)
   document.getElementById('profile-username-display').textContent = profile.username
   document.getElementById('profile-faction-badge').innerHTML = renderFactionBadge(profile.faction)
@@ -49,6 +54,64 @@ async function loadProfile() {
 }
 
 loadProfile()
+
+// ── Avatar tab switching ──────────────────────────────────────
+document.querySelectorAll('.profile-avatar-option-tab').forEach(tab => {
+  tab.addEventListener('click', () => {
+    document.querySelectorAll('.profile-avatar-option-tab').forEach(t => t.classList.remove('active'))
+    tab.classList.add('active')
+    const which = tab.dataset.tab
+    document.getElementById('avatar-tab-upload').style.display = which === 'upload' ? 'block' : 'none'
+    document.getElementById('avatar-tab-gallery').style.display = which === 'gallery' ? 'block' : 'none'
+    if (which === 'gallery') loadPresetAvatars()
+  })
+})
+
+// ── Preset avatar gallery ─────────────────────────────────────
+let presetsLoaded = false
+
+async function loadPresetAvatars() {
+  if (presetsLoaded) return
+  presetsLoaded = true
+
+  const { data, error } = await supabase
+    .from('preset_avatars')
+    .select('*')
+    .eq('active', true)
+    .order('sort_order')
+
+  const grid = document.getElementById('preset-avatars-grid')
+  if (error || !data?.length) {
+    grid.innerHTML = '<div class="preset-empty">Aucun avatar disponible pour le moment.</div>'
+    return
+  }
+
+  grid.innerHTML = data.map(a => `
+    <button class="preset-avatar-item" data-url="${a.image_url}" title="${a.name || ''}">
+      <img src="${a.image_url}" alt="${a.name || ''}">
+      ${a.name ? `<span class="preset-avatar-name">${a.name}</span>` : ''}
+    </button>`).join('')
+
+  grid.querySelectorAll('.preset-avatar-item').forEach(btn => {
+    btn.addEventListener('click', () => selectPresetAvatar(btn.dataset.url))
+  })
+}
+
+async function selectPresetAvatar(url) {
+  if (!currentUser) return
+  const { error } = await supabase.from('profiles').update({ avatar_url: url }).eq('id', currentUser.id)
+  if (error) { showGlobal(error.message, 'error'); return }
+
+  profile.avatar_url = url
+  renderAvatarDisplay(profile)
+  updateHeaderAuth()
+  showGlobal('Avatar mis à jour.')
+
+  // Highlight selected
+  document.querySelectorAll('.preset-avatar-item').forEach(btn => {
+    btn.classList.toggle('selected', btn.dataset.url === url)
+  })
+}
 
 // ── Avatar upload ─────────────────────────────────────────────
 document.getElementById('avatar-file-input').addEventListener('change', async (e) => {
@@ -162,6 +225,7 @@ document.getElementById('faction-save-btn').addEventListener('click', async () =
   if (error) { showGlobal(error.message, 'error'); return }
 
   profile.faction = selectedFaction
+  applyFactionTheme(selectedFaction)
   document.getElementById('profile-faction-badge').innerHTML = renderFactionBadge(selectedFaction)
   document.getElementById('faction-val').innerHTML = renderFactionBadge(selectedFaction)
   document.getElementById('faction-cancel-btn').click()

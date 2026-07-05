@@ -1339,3 +1339,301 @@ textarea.form-input {
   .messages-input-area { padding: 12px 14px; }
   .profile-section-card { padding: 18px 14px; }
 }
+
+/* ════════════════════════════════════════════════════════════
+   FACTION DYNAMIC THEMING (applied via body[data-faction])
+════════════════════════════════════════════════════════════ */
+:root {
+  --faction-primary: #F59E0B;
+  --faction-secondary: #FDBA74;
+  --faction-glow: rgba(245, 158, 11, 0.35);
+  --faction-bg: rgba(245, 158, 11, 0.08);
+  --faction-border: rgba(245, 158, 11, 0.25);
+}
+
+body[data-faction="pirate"] {
+  --faction-primary: #F59E0B;
+  --faction-secondary: #FDBA74;
+  --faction-glow: rgba(245, 158, 11, 0.35);
+  --faction-bg: rgba(245, 158, 11, 0.08);
+  --faction-border: rgba(245, 158, 11, 0.25);
+}
+
+body[data-faction="marine"] {
+  --faction-primary: #38BDF8;
+  --faction-secondary: #7DD3FC;
+  --faction-glow: rgba(56, 189, 248, 0.35);
+  --faction-bg: rgba(56, 189, 248, 0.08);
+  --faction-border: rgba(56, 189, 248, 0.25);
+}
+
+body[data-faction="revolutionnaire"] {
+  --faction-primary: #EF4444;
+  --faction-secondary: #FCA5A5;
+  --faction-glow: rgba(239, 68, 68, 0.35);
+  --faction-bg: rgba(239, 68, 68, 0.08);
+  --faction-border: rgba(239, 68, 68, 0.25);
+}
+
+/* Profile page faction-themed elements */
+body[data-faction] .profile-header-card {
+  border-color: var(--faction-border);
+}
+
+body[data-faction] .profile-avatar-big,
+body[data-faction] .profile-avatar-initial-big {
+  border-color: var(--faction-primary);
+}
+
+body[data-faction] .profile-avatar-initial-big {
+  background: var(--faction-bg);
+  color: var(--faction-primary);
+}
+
+body[data-faction] .profile-info h2 {
+  color: var(--faction-secondary);
+}
+
+body[data-faction] .profile-section-title {
+  color: var(--faction-secondary);
+}
+
+body[data-faction] .btn-edit {
+  background: var(--faction-bg);
+  border-color: var(--faction-border);
+  color: var(--faction-primary);
+}
+
+body[data-faction] .btn-edit:hover {
+  background: color-mix(in srgb, var(--faction-primary) 20%, transparent);
+}
+
+body[data-faction] .profile-edit-input:focus {
+  border-color: var(--faction-primary);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--faction-primary) 15%, transparent);
+}
+
+/* Messages page faction-themed elements */
+body[data-faction] .conv-item.active {
+  background: var(--faction-bg);
+  border-left-color: var(--faction-primary);
+}
+
+body[data-faction] .conv-avatar {
+  border-color: color-mix(in srgb, var(--faction-primary) 40%, transparent);
+  background: var(--faction-bg);
+  color: var(--faction-primary);
+}
+
+body[data-faction] .conv-unread {
+  background: var(--faction-primary);
+}
+
+body[data-faction] .messages-send-btn {
+  background: linear-gradient(135deg, var(--faction-primary), var(--faction-secondary));
+}
+
+body[data-faction] .msg-bubble-wrap.mine .msg-bubble {
+  background: color-mix(in srgb, var(--faction-primary) 20%, transparent);
+  border-color: color-mix(in srgb, var(--faction-primary) 30%, transparent);
+}
+
+body[data-faction] .messages-textarea:focus {
+  border-color: var(--faction-primary);
+}
+
+body[data-faction] .messages-search-input:focus {
+  border-color: var(--faction-primary);
+}
+
+/* ════════════════════════════════════════════════════════════
+   PROFILE — Avatar section with tabs & preset gallery
+════════════════════════════════════════════════════════════ */
+.profile-avatar-options {
+  display: flex;
+  gap: 0;
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+  margin-bottom: 20px;
+}
+
+.profile-avatar-option-tab {
+  padding: 9px 20px;
+  font-size: 13px;
+  font-family: 'Inter', sans-serif;
+  font-weight: 500;
+  color: #64748B;
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+  margin-bottom: -1px;
+  transition: color 0.2s, border-color 0.2s;
+  user-select: none;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+
+.profile-avatar-option-tab:hover { color: #94A3B8; }
+.profile-avatar-option-tab.active { color: var(--faction-primary, #F59E0B); border-bottom-color: var(--faction-primary, #F59E0B); }
+
+.profile-avatar-upload-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 20px;
+  background: var(--faction-bg, rgba(245,158,11,0.08));
+  border: 1px solid var(--faction-border, rgba(245,158,11,0.25));
+  border-radius: 10px;
+  color: var(--faction-primary, #F59E0B);
+  font-size: 13px;
+  font-family: 'Inter', sans-serif;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.profile-avatar-upload-label:hover {
+  background: color-mix(in srgb, var(--faction-primary, #F59E0B) 20%, transparent);
+}
+
+.preset-avatars-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(90px, 1fr));
+  gap: 12px;
+  margin-top: 4px;
+}
+
+.preset-avatar-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  background: rgba(255,255,255,0.03);
+  border: 2px solid rgba(255,255,255,0.07);
+  border-radius: 12px;
+  padding: 8px;
+  cursor: pointer;
+  transition: border-color 0.2s, background 0.2s, transform 0.15s;
+}
+
+.preset-avatar-item:hover {
+  border-color: var(--faction-primary, #F59E0B);
+  background: var(--faction-bg, rgba(245,158,11,0.08));
+  transform: translateY(-2px);
+}
+
+.preset-avatar-item.selected {
+  border-color: var(--faction-primary, #F59E0B);
+  background: var(--faction-bg, rgba(245,158,11,0.1));
+  box-shadow: 0 0 0 2px var(--faction-primary, #F59E0B);
+}
+
+.preset-avatar-item img {
+  width: 66px;
+  height: 66px;
+  border-radius: 50%;
+  object-fit: cover;
+  display: block;
+}
+
+.preset-avatar-name {
+  font-size: 11px;
+  color: #94A3B8;
+  font-family: 'Inter', sans-serif;
+  text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 80px;
+}
+
+.preset-loading,
+.preset-empty {
+  color: #475569;
+  font-family: 'Inter', sans-serif;
+  font-size: 13px;
+  padding: 16px 0;
+}
+
+/* ════════════════════════════════════════════════════════════
+   ADMIN — Preset avatars grid
+════════════════════════════════════════════════════════════ */
+.avatars-preset-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+  gap: 16px;
+}
+
+.avatar-preset-card {
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(56,189,248,0.12);
+  border-radius: 14px;
+  overflow: hidden;
+  transition: border-color 0.2s, transform 0.2s;
+}
+
+.avatar-preset-card:hover {
+  border-color: rgba(245,158,11,0.4);
+  transform: translateY(-2px);
+}
+
+.avatar-preset-card.avatar-inactive {
+  opacity: 0.5;
+}
+
+.avatar-preset-img-wrap {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1;
+  background: rgba(0,0,0,0.3);
+  overflow: hidden;
+}
+
+.avatar-preset-img-wrap img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.avatar-hidden-badge {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  background: rgba(239,68,68,0.85);
+  color: #fff;
+  font-size: 9px;
+  font-family: 'Inter', sans-serif;
+  font-weight: 700;
+  padding: 2px 6px;
+  border-radius: 4px;
+  letter-spacing: 0.05em;
+}
+
+.avatar-preset-body {
+  padding: 8px 10px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px;
+}
+
+.avatar-preset-name {
+  font-size: 12px;
+  color: #94A3B8;
+  font-family: 'Inter', sans-serif;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  flex: 1;
+}
+
+.avatar-preset-actions {
+  display: flex;
+  gap: 4px;
+}
+
+.avatar-preset-actions .btn-table-save,
+.avatar-preset-actions .btn-table-delete {
+  padding: 4px 8px;
+  font-size: 11px;
+}

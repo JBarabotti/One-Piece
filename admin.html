@@ -72,6 +72,12 @@
           <i class="fas fa-book-open"></i> Évènement Manga
         </button>
 
+        <div class="admin-nav-section-label">Personnalisation</div>
+
+        <button class="admin-nav-item" data-panel="avatars">
+          <i class="fas fa-image"></i> Avatars prédéfinis
+        </button>
+
         <div class="admin-nav-section-label">Messagerie</div>
 
         <button class="admin-nav-item" data-panel="messages">
@@ -621,6 +627,72 @@
               <div class="chars-modal-actions">
                 <button class="btn-table-delete" id="btn-char-delete-confirm">Supprimer</button>
                 <button class="btn-chars-back" id="btn-char-delete-cancel">Annuler</button>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- ── AVATARS PANEL ────────────────────────────────── -->
+        <div class="admin-panel" id="panel-avatars">
+
+          <div class="chars-view" id="avatars-view-list">
+            <div class="dash-card-header" style="margin-bottom:20px;">
+              <div class="dash-card-title"><i class="fas fa-image"></i> Avatars prédéfinis</div>
+              <button class="btn-save-primary" id="btn-add-avatar" style="margin-top:0;">
+                <i class="fas fa-plus"></i> Ajouter
+              </button>
+            </div>
+            <div id="avatars-list-content"><div class="chars-loading">Chargement…</div></div>
+          </div>
+
+          <div class="chars-view" id="avatars-view-form" style="display:none;">
+            <div class="dash-card">
+              <div class="dash-card-header">
+                <div class="dash-card-title" id="avatars-form-title"><i class="fas fa-plus"></i> Ajouter un avatar</div>
+                <button class="btn-chars-back" id="btn-avatars-back"><i class="fas fa-arrow-left"></i> Retour</button>
+              </div>
+              <input type="hidden" id="avatar-edit-id">
+              <div class="chars-form-grid">
+                <div class="event-field">
+                  <label class="event-field-label">Nom / Description</label>
+                  <input type="text" class="event-field-input" id="avatar-name" placeholder="Ex : Luffy, Zoro…">
+                </div>
+                <div class="event-field">
+                  <label class="event-field-label">Ordre d'affichage</label>
+                  <input type="number" class="event-field-input" id="avatar-sort" value="0" min="0">
+                </div>
+                <div class="event-field">
+                  <label class="event-field-label">Actif</label>
+                  <select class="event-field-input" id="avatar-active">
+                    <option value="true">Oui (visible par les utilisateurs)</option>
+                    <option value="false">Non (masqué)</option>
+                  </select>
+                </div>
+                <div class="event-field full">
+                  <label class="event-field-label">Image *</label>
+                  <div class="img-upload-wrap">
+                    <input type="url" class="event-field-input" id="avatar-image-url" placeholder="https://… ou importer depuis votre ordinateur">
+                    <button type="button" class="btn-upload" id="btn-avatar-upload"><i class="fas fa-upload"></i> Importer</button>
+                    <input type="file" id="avatar-file-input-admin" accept="image/*" style="display:none;">
+                  </div>
+                  <div class="img-preview-wrap" id="avatar-img-preview"></div>
+                </div>
+              </div>
+              <div style="display:flex;gap:12px;margin-top:20px;flex-wrap:wrap;">
+                <button class="btn-save-primary" id="btn-avatar-save"><i class="fas fa-save"></i> Enregistrer</button>
+                <button class="btn-chars-back" id="btn-avatar-cancel">Annuler</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="chars-modal-overlay" id="avatars-delete-modal" style="display:none;">
+            <div class="chars-modal">
+              <div class="chars-modal-title"><i class="fas fa-exclamation-triangle"></i> Supprimer cet avatar ?</div>
+              <p class="chars-modal-body">Cette action est irréversible.</p>
+              <div class="chars-modal-actions">
+                <button class="btn-table-delete" id="btn-avatar-delete-confirm">Supprimer</button>
+                <button class="btn-chars-back" id="btn-avatar-delete-cancel">Annuler</button>
               </div>
             </div>
           </div>

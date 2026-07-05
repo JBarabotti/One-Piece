@@ -23,15 +23,35 @@
       <div class="profile-header-card" id="profile-header-card">
         <div class="profile-avatar-wrap">
           <div id="profile-avatar-display"></div>
-          <label class="profile-avatar-upload-btn" title="Changer la photo">
-            <i class="fas fa-camera"></i>
-            <input type="file" id="avatar-file-input" accept="image/*" style="display:none;">
-          </label>
         </div>
         <div class="profile-info">
           <h2 id="profile-username-display"></h2>
           <div id="profile-faction-badge"></div>
           <div class="profile-email" id="profile-email-display"></div>
+        </div>
+      </div>
+
+      <!-- Avatar section -->
+      <div class="profile-section-card">
+        <div class="profile-section-title">Photo de profil</div>
+        <div class="profile-avatar-options">
+          <div class="profile-avatar-option-tab active" id="tab-upload" data-tab="upload">
+            <i class="fas fa-upload"></i> Importer
+          </div>
+          <div class="profile-avatar-option-tab" id="tab-gallery" data-tab="gallery">
+            <i class="fas fa-image"></i> Galerie d'avatars
+          </div>
+        </div>
+        <div id="avatar-tab-upload">
+          <label class="profile-avatar-upload-label" for="avatar-file-input">
+            <i class="fas fa-camera"></i> Choisir une photo depuis votre appareil
+            <input type="file" id="avatar-file-input" accept="image/*" style="display:none;">
+          </label>
+        </div>
+        <div id="avatar-tab-gallery" style="display:none;">
+          <div id="preset-avatars-grid" class="preset-avatars-grid">
+            <div class="preset-loading">Chargement des avatars…</div>
+          </div>
         </div>
       </div>
 

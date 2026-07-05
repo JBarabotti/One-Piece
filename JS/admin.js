@@ -15,6 +15,7 @@ const PANEL_TITLES = {
   characters:    'Personnages',
   'event-anime': 'Évènement Animé',
   'event-manga': 'Évènement Manga',
+  avatars:       'Avatars prédéfinis',
   messages:      'Messages',
 }
 
@@ -37,9 +38,11 @@ const PAGE_SIZE = 20
   setupCategories()
   setupSubcategories()
   setupCharacters()
+  setupAvatars()
   setupImageUpload('cat', 'categories')
   setupImageUpload('sub', 'subcategories')
   setupImageUpload('char', 'characters')
+  setupAvatarAdminUpload()
 })()
 
 // ── Sidebar user ──────────────────────────────────────────────
@@ -1362,4 +1365,158 @@ function slugify(str) {
     .normalize('NFD').replace(/[\u0300-\u036f]/g, '')
     .replace(/[^a-z0-9]+/g, '-')
     .replace(/^-+|-+$/g, '')
+}
+
+// ══════════════════════════════════════════════════════════════
+// PRESET AVATARS MANAGEMENT
+// ══════════════════════════════════════════════════════════════
+let avatarsAll = []
+let avatarsDeleteTarget = null
+
+function setupAvatars() {
+  document.getElementById('btn-add-avatar').addEventListener('click', () => openAvatarForm())
+  document.getElementById('btn-avatars-back').addEventListener('click', showAvatarList)
+  document.getElementById('btn-avatar-cancel').addEventListener('click', showAvatarList)
+  document.getElementById('btn-avatar-save').addEventListener('click', saveAvatar)
+  document.getElementById('btn-avatar-delete-confirm').addEventListener('click', confirmDeleteAvatar)
+  document.getElementById('btn-avatar-delete-cancel').addEventListener('click', () => {
+    document.getElementById('avatars-delete-modal').style.display = 'none'
+  })
+  document.getElementById('avatar-image-url').addEventListener('input', () => {
+    updatePreview(document.getElementById('avatar-img-preview'), document.getElementById('avatar-image-url').value.trim())
+  })
+  document.querySelector('.admin-nav-item[data-panel="avatars"]').addEventListener('click', loadAvatars)
+}
+
+function setupAvatarAdminUpload() {
+  const urlInput = document.getElementById('avatar-image-url')
+  const fileInput = document.getElementById('avatar-file-input-admin')
+  const uploadBtn = document.getElementById('btn-avatar-upload')
+  const preview = document.getElementById('avatar-img-preview')
+
+  uploadBtn.addEventListener('click', () => fileInput.click())
+
+  fileInput.addEventListener('change', async () => {
+    const file = fileInput.files[0]
+    if (!file) return
+    uploadBtn.disabled = true
+    uploadBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Upload…'
+
+    const ext = file.name.split('.').pop()
+    const path = `${Date.now()}-${Math.random().toString(36).slice(2)}.${ext}`
+
+    const { error } = await supabase.storage.from('preset-avatars').upload(path, file, { upsert: false })
+    uploadBtn.disabled = false
+    uploadBtn.innerHTML = '<i class="fas fa-upload"></i> Importer'
+
+    if (error) { showAlert('Erreur upload : ' + error.message, 'error'); return }
+
+    const { data: { publicUrl } } = supabase.storage.from('preset-avatars').getPublicUrl(path)
+    urlInput.value = publicUrl
+    updatePreview(preview, publicUrl)
+    fileInput.value = ''
+  })
+}
+
+async function loadAvatars() {
+  const { data, error } = await supabase
+    .from('preset_avatars')
+    .select('*')
+    .order('sort_order')
+  if (error) { showAlert(error.message, 'error'); return }
+  avatarsAll = data || []
+  renderAvatarList()
+}
+
+function renderAvatarList() {
+  const container = document.getElementById('avatars-list-content')
+  if (!avatarsAll.length) {
+    container.innerHTML = '<div class="chars-empty">Aucun avatar prédéfini. Cliquez sur <strong>Ajouter</strong> pour créer le premier.</div>'
+    return
+  }
+
+  container.innerHTML = `<div class="avatars-preset-grid">${avatarsAll.map(a => `
+    <div class="avatar-preset-card${a.active ? '' : ' avatar-inactive'}">
+      <div class="avatar-preset-img-wrap">
+        <img src="${a.image_url}" alt="${a.name || ''}" onerror="this.src=''">
+        ${!a.active ? '<span class="avatar-hidden-badge">Masqué</span>' : ''}
+      </div>
+      <div class="avatar-preset-body">
+        <div class="avatar-preset-name">${a.name || '—'}</div>
+        <div class="avatar-preset-actions">
+          <button class="btn-table-save" data-edit-avatar="${a.id}"><i class="fas fa-pencil-alt"></i></button>
+          <button class="btn-table-delete" data-delete-avatar="${a.id}"><i class="fas fa-trash"></i></button>
+        </div>
+      </div>
+    </div>`).join('')}</div>`
+
+  container.querySelectorAll('[data-edit-avatar]').forEach(btn => btn.addEventListener('click', () => openAvatarForm(btn.dataset.editAvatar)))
+  container.querySelectorAll('[data-delete-avatar]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      avatarsDeleteTarget = btn.dataset.deleteAvatar
+      document.getElementById('avatars-delete-modal').style.display = 'flex'
+    })
+  })
+}
+
+function showAvatarList() {
+  document.getElementById('avatars-view-form').style.display = 'none'
+  document.getElementById('avatars-view-list').style.display = 'block'
+  document.getElementById('avatars-delete-modal').style.display = 'none'
+}
+
+function openAvatarForm(avatarId = null) {
+  document.getElementById('avatars-view-list').style.display = 'none'
+  document.getElementById('avatars-view-form').style.display = 'block'
+
+  if (avatarId) {
+    const a = avatarsAll.find(x => x.id === avatarId)
+    if (!a) return
+    document.getElementById('avatars-form-title').innerHTML = '<i class="fas fa-pencil-alt"></i> Modifier l\'avatar'
+    document.getElementById('avatar-edit-id').value = a.id
+    document.getElementById('avatar-name').value = a.name || ''
+    document.getElementById('avatar-sort').value = a.sort_order ?? 0
+    document.getElementById('avatar-active').value = a.active ? 'true' : 'false'
+    document.getElementById('avatar-image-url').value = a.image_url || ''
+    updatePreview(document.getElementById('avatar-img-preview'), a.image_url || '')
+  } else {
+    document.getElementById('avatars-form-title').innerHTML = '<i class="fas fa-plus"></i> Ajouter un avatar'
+    document.getElementById('avatar-edit-id').value = ''
+    document.getElementById('avatar-name').value = ''
+    document.getElementById('avatar-sort').value = '0'
+    document.getElementById('avatar-active').value = 'true'
+    document.getElementById('avatar-image-url').value = ''
+    document.getElementById('avatar-img-preview').innerHTML = ''
+  }
+}
+
+async function saveAvatar() {
+  const id = document.getElementById('avatar-edit-id').value
+  const image_url = document.getElementById('avatar-image-url').value.trim()
+  if (!image_url) { showAlert('L\'image est requise.', 'error'); return }
+
+  const payload = {
+    name: document.getElementById('avatar-name').value.trim() || '',
+    image_url,
+    sort_order: parseInt(document.getElementById('avatar-sort').value) || 0,
+    active: document.getElementById('avatar-active').value === 'true',
+  }
+
+  let error
+  if (id) { ;({ error } = await supabase.from('preset_avatars').update(payload).eq('id', id)) }
+  else     { ;({ error } = await supabase.from('preset_avatars').insert(payload)) }
+  if (error) { showAlert(error.message, 'error'); return }
+
+  showAlert(id ? 'Avatar mis à jour.' : 'Avatar ajouté.')
+  await loadAvatars(); showAvatarList()
+}
+
+async function confirmDeleteAvatar() {
+  if (!avatarsDeleteTarget) return
+  const { error } = await supabase.from('preset_avatars').delete().eq('id', avatarsDeleteTarget)
+  if (error) { showAlert(error.message, 'error'); return }
+  showAlert('Avatar supprimé.')
+  avatarsDeleteTarget = null
+  document.getElementById('avatars-delete-modal').style.display = 'none'
+  await loadAvatars()
 }
