@@ -144,12 +144,79 @@ function renderMessages(msgs) {
   thread.innerHTML = msgs.map(msg => {
     const mine = msg.sender_id === currentUser.id
     const time = new Date(msg.created_at).toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' })
-    return `<div class="msg-bubble-wrap ${mine ? 'mine' : 'theirs'}">
+    const edited = msg.updated_at && msg.updated_at !== msg.created_at
+    return `<div class="msg-bubble-wrap ${mine ? 'mine' : 'theirs'}" data-msg-id="${msg.id}">
       <div class="msg-bubble">${escapeHtml(msg.content)}</div>
-      <div class="msg-time">${time}</div>
+      <div class="msg-time">${time}${edited ? ' · modifié' : ''}</div>
+      ${mine ? `<div class="msg-user-actions">
+        <button class="btn-msg-ua btn-msg-ua-edit" data-id="${msg.id}" title="Modifier"><i class="fas fa-pencil-alt"></i></button>
+        <button class="btn-msg-ua btn-msg-ua-delete" data-id="${msg.id}" title="Supprimer"><i class="fas fa-trash"></i></button>
+      </div>` : ''}
     </div>`
   }).join('')
+
+  thread.querySelectorAll('.btn-msg-ua-edit').forEach(btn => {
+    btn.addEventListener('click', () => startInlineEdit(btn.dataset.id))
+  })
+  thread.querySelectorAll('.btn-msg-ua-delete').forEach(btn => {
+    btn.addEventListener('click', () => showInlineDelete(btn.dataset.id))
+  })
+
   thread.scrollTop = thread.scrollHeight
+}
+
+function startInlineEdit(msgId) {
+  const wrap = document.querySelector(`.msg-bubble-wrap[data-msg-id="${msgId}"]`)
+  if (!wrap) return
+  const bubble = wrap.querySelector('.msg-bubble')
+  const currentText = bubble.textContent
+
+  bubble.innerHTML = `
+    <div class="msg-inline-edit">
+      <textarea class="msg-edit-textarea">${escapeHtml(currentText)}</textarea>
+      <div class="msg-inline-edit-actions">
+        <button class="btn-msg-edit-save" data-id="${msgId}">Enregistrer</button>
+        <button class="btn-msg-edit-cancel">Annuler</button>
+      </div>
+    </div>
+  `
+  const ta = bubble.querySelector('.msg-edit-textarea')
+  ta.focus()
+  ta.setSelectionRange(ta.value.length, ta.value.length)
+
+  bubble.querySelector('.btn-msg-edit-save').addEventListener('click', async () => {
+    const newContent = ta.value.trim()
+    if (!newContent) return
+    const { error } = await supabase.from('messages')
+      .update({ content: newContent, updated_at: new Date().toISOString() })
+      .eq('id', msgId)
+      .eq('sender_id', currentUser.id)
+    if (!error && activePartnerId) await openConversation(activePartnerId)
+    else if (error) bubble.textContent = currentText
+  })
+
+  bubble.querySelector('.btn-msg-edit-cancel').addEventListener('click', () => {
+    if (activePartnerId) openConversation(activePartnerId)
+  })
+}
+
+function showInlineDelete(msgId) {
+  const wrap = document.querySelector(`.msg-bubble-wrap[data-msg-id="${msgId}"]`)
+  if (!wrap) return
+  const actions = wrap.querySelector('.msg-user-actions')
+  actions.innerHTML = `
+    <span class="msg-delete-confirm">Supprimer ?</span>
+    <button class="btn-msg-ua btn-msg-delete-yes" data-id="${msgId}">Oui</button>
+    <button class="btn-msg-ua btn-msg-delete-no">Non</button>
+  `
+  actions.querySelector('.btn-msg-delete-yes').addEventListener('click', async () => {
+    await supabase.from('messages').delete().eq('id', msgId).eq('sender_id', currentUser.id)
+    await loadConversations()
+    if (activePartnerId) await openConversation(activePartnerId)
+  })
+  actions.querySelector('.btn-msg-delete-no').addEventListener('click', () => {
+    if (activePartnerId) openConversation(activePartnerId)
+  })
 }
 
 async function sendMessage() {

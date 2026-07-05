@@ -1,6 +1,7 @@
 import { supabase } from './supabase-client.js'
 import { initHeader, updateHeaderAuth } from './header.js'
 import { requireAuth, getProfileByUsername } from './auth.js'
+import { openCropModal } from './crop-modal.js'
 
 initHeader()
 
@@ -117,11 +118,17 @@ async function selectPresetAvatar(url) {
 document.getElementById('avatar-file-input').addEventListener('change', async (e) => {
   const file = e.target.files[0]
   if (!file || !currentUser) return
+  e.target.value = ''
 
-  const ext = file.name.split('.').pop()
-  const path = `${currentUser.id}/avatar.${ext}`
+  let blob
+  try {
+    blob = await openCropModal(file)
+  } catch {
+    return
+  }
 
-  const { error: upErr } = await supabase.storage.from('avatars').upload(path, file, { upsert: true })
+  const path = `${currentUser.id}/avatar.jpg`
+  const { error: upErr } = await supabase.storage.from('avatars').upload(path, blob, { upsert: true, contentType: 'image/jpeg' })
   if (upErr) { showGlobal(upErr.message, 'error'); return }
 
   const { data: urlData } = supabase.storage.from('avatars').getPublicUrl(path)

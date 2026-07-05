@@ -1,5 +1,6 @@
 import { supabase } from './supabase-client.js'
 import { requireAdmin, getProfileByUsername, signOut } from './auth.js'
+import { openCropModal } from './crop-modal.js'
 
 const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL
 
@@ -1399,13 +1400,20 @@ function setupAvatarAdminUpload() {
   fileInput.addEventListener('change', async () => {
     const file = fileInput.files[0]
     if (!file) return
+    fileInput.value = ''
+
+    let blob
+    try {
+      blob = await openCropModal(file)
+    } catch {
+      return
+    }
+
     uploadBtn.disabled = true
     uploadBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Upload…'
 
-    const ext = file.name.split('.').pop()
-    const path = `${Date.now()}-${Math.random().toString(36).slice(2)}.${ext}`
-
-    const { error } = await supabase.storage.from('preset-avatars').upload(path, file, { upsert: false })
+    const path = `${Date.now()}-${Math.random().toString(36).slice(2)}.jpg`
+    const { error } = await supabase.storage.from('preset-avatars').upload(path, blob, { upsert: false, contentType: 'image/jpeg' })
     uploadBtn.disabled = false
     uploadBtn.innerHTML = '<i class="fas fa-upload"></i> Importer'
 
@@ -1414,7 +1422,6 @@ function setupAvatarAdminUpload() {
     const { data: { publicUrl } } = supabase.storage.from('preset-avatars').getPublicUrl(path)
     urlInput.value = publicUrl
     updatePreview(preview, publicUrl)
-    fileInput.value = ''
   })
 }
 
