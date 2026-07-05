@@ -12,6 +12,7 @@ export default defineConfig({
         profile: 'profile.html',
         messages: 'messages.html',
         admin: 'admin.html',
+        personnages: 'personnages.html',
       }
     }
   }

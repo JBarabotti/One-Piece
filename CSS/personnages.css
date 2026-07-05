@@ -1,0 +1,656 @@
+/* ═══════════════════════════════════════════════════════════
+   PERSONNAGES.CSS — Public character browsing pages
+═══════════════════════════════════════════════════════════ */
+
+/* ─── Page wrapper ───────────────────────────────────────────── */
+.pers-page {
+  padding: 80px 0 60px;
+  min-height: 100vh;
+}
+
+.pers-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 32px;
+}
+
+/* ─── Breadcrumb ─────────────────────────────────────────────── */
+.pers-breadcrumb {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px 32px 0;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 6px;
+  font-size: 13px;
+  font-family: 'Inter', sans-serif;
+}
+
+.pers-bc-link {
+  color: #64748B;
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.pers-bc-link:hover { color: #F59E0B; }
+
+.pers-bc-sep {
+  color: #334155;
+  font-size: 10px;
+}
+
+.pers-bc-current {
+  color: #F8FAFC;
+  font-weight: 600;
+}
+
+/* ─── Loading / error states ─────────────────────────────────── */
+.pers-loading, .pers-error, .pers-empty {
+  text-align: center;
+  padding: 60px 20px;
+  font-family: 'Inter', sans-serif;
+  color: #475569;
+}
+
+.pers-loading .fas, .pers-error .fas {
+  font-size: 32px;
+  margin-bottom: 12px;
+  display: block;
+  transform: none !important;
+}
+
+.pers-error { color: #FCA5A5; }
+
+/* ════════════════════════════════════════════════════════════
+   OVERVIEW — 3 category cards
+════════════════════════════════════════════════════════════ */
+.pers-overview-hero {
+  text-align: center;
+  padding: 48px 20px 40px;
+}
+
+.pers-page-title {
+  font-family: "Pirata One", cursive;
+  font-size: 62px;
+  color: #FDBA74;
+  text-shadow: 0 4px 24px rgba(245,158,11,0.3);
+  margin-bottom: 14px;
+}
+
+.pers-page-subtitle {
+  font-family: "Cormorant Garamond", serif;
+  font-size: 20px;
+  color: #94A3B8;
+  max-width: 600px;
+  margin: 0 auto;
+  line-height: 1.6;
+}
+
+.pers-cat-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 24px;
+  padding: 0 0 60px;
+}
+
+.pers-cat-card {
+  background: rgba(8,13,24,0.85);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255,255,255,0.07);
+  border-radius: 20px;
+  padding: 32px 28px;
+  text-decoration: none;
+  display: flex;
+  align-items: flex-start;
+  gap: 20px;
+  transition: border-color 0.3s, box-shadow 0.3s, transform 0.3s;
+  position: relative;
+  overflow: hidden;
+}
+
+.pers-cat-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, color-mix(in srgb, var(--cat-color) 8%, transparent), transparent 60%);
+  opacity: 0;
+  transition: opacity 0.3s;
+  pointer-events: none;
+}
+
+.pers-cat-card:hover {
+  border-color: var(--cat-color);
+  box-shadow: 0 16px 48px rgba(0,0,0,0.5), 0 0 0 1px var(--cat-color) inset;
+  transform: translateY(-4px);
+}
+
+.pers-cat-card:hover::before { opacity: 1; }
+
+.pers-cat-card-icon {
+  width: 56px;
+  height: 56px;
+  border-radius: 14px;
+  background: color-mix(in srgb, var(--cat-color) 15%, transparent);
+  border: 1px solid color-mix(in srgb, var(--cat-color) 30%, transparent);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+  color: var(--cat-color);
+  flex-shrink: 0;
+  transition: background 0.3s;
+}
+
+.pers-cat-card-body { flex: 1; min-width: 0; }
+
+.pers-cat-card-name {
+  font-family: "Pirata One", cursive;
+  font-size: 28px;
+  color: #F8FAFC;
+  margin-bottom: 8px;
+  transition: color 0.3s;
+}
+
+.pers-cat-card:hover .pers-cat-card-name { color: var(--cat-color); }
+
+.pers-cat-card-desc {
+  font-family: "Cormorant Garamond", serif;
+  font-size: 15px;
+  color: #64748B;
+  line-height: 1.5;
+  margin-bottom: 10px;
+}
+
+.pers-cat-card-meta {
+  display: flex;
+  gap: 12px;
+  font-size: 11px;
+  font-family: 'Inter', sans-serif;
+  font-weight: 600;
+  color: var(--cat-color);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  margin-bottom: 14px;
+}
+
+.pers-cat-card-subs {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.pers-cat-card-subs li {
+  font-size: 12px;
+  font-family: 'Inter', sans-serif;
+  color: #475569;
+  padding-left: 12px;
+  position: relative;
+}
+
+.pers-cat-card-subs li::before {
+  content: '›';
+  position: absolute;
+  left: 0;
+  color: var(--cat-color);
+  opacity: 0.6;
+}
+
+.pers-cat-card-subs li.more { color: #334155; font-style: italic; }
+
+.pers-cat-card-arrow {
+  color: #334155;
+  font-size: 16px;
+  transition: color 0.3s, transform 0.3s;
+  padding-top: 4px;
+}
+
+.pers-cat-card:hover .pers-cat-card-arrow {
+  color: var(--cat-color);
+  transform: translateX(4px);
+}
+
+/* ════════════════════════════════════════════════════════════
+   CATEGORY view — subcategory grid
+════════════════════════════════════════════════════════════ */
+.pers-cat-hero {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  padding: 40px 0 36px;
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+  margin-bottom: 32px;
+}
+
+.pers-cat-hero-icon {
+  width: 70px;
+  height: 70px;
+  border-radius: 18px;
+  background: color-mix(in srgb, var(--cat-color) 15%, transparent);
+  border: 1px solid color-mix(in srgb, var(--cat-color) 35%, transparent);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 28px;
+  color: var(--cat-color);
+  flex-shrink: 0;
+}
+
+.pers-cat-hero-name {
+  font-family: "Pirata One", cursive;
+  font-size: 48px;
+  color: #FDBA74;
+  margin-bottom: 6px;
+}
+
+.pers-cat-hero-desc {
+  font-family: "Cormorant Garamond", serif;
+  font-size: 18px;
+  color: #64748B;
+}
+
+.pers-sub-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 20px;
+  padding-bottom: 60px;
+}
+
+.pers-sub-card {
+  background: rgba(8,13,24,0.82);
+  border: 1px solid rgba(255,255,255,0.07);
+  border-radius: 16px;
+  overflow: hidden;
+  text-decoration: none;
+  display: flex;
+  flex-direction: column;
+  transition: border-color 0.3s, box-shadow 0.3s, transform 0.3s;
+}
+
+.pers-sub-card:hover {
+  border-color: var(--cat-color);
+  box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+  transform: translateY(-3px);
+}
+
+.pers-sub-card-img {
+  width: 100%;
+  height: 140px;
+  object-fit: cover;
+  display: block;
+}
+
+.pers-sub-card-img-placeholder {
+  width: 100%;
+  height: 140px;
+  background: rgba(255,255,255,0.03);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: rgba(148,163,184,0.15);
+  font-size: 36px;
+}
+
+.pers-sub-card-body {
+  padding: 16px 18px;
+  flex: 1;
+}
+
+.pers-sub-card-name {
+  font-family: "Pirata One", cursive;
+  font-size: 18px;
+  color: #F8FAFC;
+  margin-bottom: 6px;
+  transition: color 0.3s;
+}
+
+.pers-sub-card:hover .pers-sub-card-name { color: var(--cat-color); }
+
+.pers-sub-card-desc {
+  font-size: 13px;
+  font-family: 'Inter', sans-serif;
+  color: #475569;
+  line-height: 1.5;
+  margin-bottom: 10px;
+}
+
+.pers-sub-card-count {
+  font-size: 11px;
+  font-family: 'Inter', sans-serif;
+  font-weight: 700;
+  color: var(--cat-color);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+/* ════════════════════════════════════════════════════════════
+   SUBCATEGORY view — characters grid
+════════════════════════════════════════════════════════════ */
+.pers-sub-hero {
+  padding: 36px 0 28px;
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+  margin-bottom: 28px;
+}
+
+.pers-sub-hero-back {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  font-family: 'Inter', sans-serif;
+  font-weight: 600;
+  color: var(--cat-color);
+  text-decoration: none;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  margin-bottom: 14px;
+  opacity: 0.8;
+  transition: opacity 0.2s;
+}
+
+.pers-sub-hero-back:hover { opacity: 1; }
+.pers-sub-hero-back .fas { transform: none !important; }
+
+.pers-sub-hero-title {
+  font-family: "Pirata One", cursive;
+  font-size: 44px;
+  color: #FDBA74;
+  margin-bottom: 8px;
+}
+
+.pers-sub-hero-desc {
+  font-family: "Cormorant Garamond", serif;
+  font-size: 17px;
+  color: #64748B;
+}
+
+.pers-char-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 20px;
+  padding-bottom: 60px;
+}
+
+.pers-char-card {
+  background: rgba(8,13,24,0.82);
+  border: 1px solid rgba(255,255,255,0.07);
+  border-radius: 16px;
+  overflow: hidden;
+  text-decoration: none;
+  display: flex;
+  flex-direction: column;
+  transition: border-color 0.3s, box-shadow 0.3s, transform 0.3s;
+}
+
+.pers-char-card:hover {
+  border-color: var(--cat-color);
+  box-shadow: 0 8px 28px rgba(0,0,0,0.4);
+  transform: translateY(-3px);
+}
+
+.pers-char-card-img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  object-position: top;
+  display: block;
+}
+
+.pers-char-card-img-placeholder {
+  width: 100%;
+  height: 200px;
+  background: rgba(255,255,255,0.03);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: rgba(148,163,184,0.15);
+  font-size: 48px;
+}
+
+.pers-char-card-body {
+  padding: 14px 16px;
+  flex: 1;
+}
+
+.pers-char-card-name {
+  font-family: "Pirata One", cursive;
+  font-size: 17px;
+  color: #F8FAFC;
+  margin-bottom: 4px;
+  line-height: 1.3;
+  transition: color 0.3s;
+}
+
+.pers-char-card:hover .pers-char-card-name { color: var(--cat-color); }
+
+.pers-char-card-role {
+  font-size: 11px;
+  font-family: 'Inter', sans-serif;
+  color: #64748B;
+  margin-bottom: 8px;
+  display: block;
+}
+
+.pers-char-card-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+}
+
+/* ─── Tags shared ─────────────────────────────────────────── */
+.pers-tag {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 20px;
+  font-size: 10px;
+  font-weight: 700;
+  font-family: 'Inter', sans-serif;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  border: 1px solid;
+}
+
+.pers-tag.faction-pirate { background: rgba(245,158,11,0.12); color: #F59E0B; border-color: rgba(245,158,11,0.25); }
+.pers-tag.faction-marine { background: rgba(56,189,248,0.12); color: #38BDF8; border-color: rgba(56,189,248,0.25); }
+.pers-tag.faction-revolutionnaire { background: rgba(239,68,68,0.12); color: #EF4444; border-color: rgba(239,68,68,0.25); }
+.pers-tag.faction-other { background: rgba(148,163,184,0.1); color: #94A3B8; border-color: rgba(148,163,184,0.2); }
+
+.pers-tag.status-alive   { background: rgba(16,185,129,0.1);  color: #6EE7B7; border-color: rgba(16,185,129,0.2); }
+.pers-tag.status-dead    { background: rgba(239,68,68,0.1);   color: #FCA5A5; border-color: rgba(239,68,68,0.2); }
+.pers-tag.status-unknown { background: rgba(100,116,139,0.1); color: #94A3B8; border-color: rgba(100,116,139,0.2); }
+
+/* ════════════════════════════════════════════════════════════
+   CHARACTER DETAIL
+════════════════════════════════════════════════════════════ */
+.pers-detail {
+  padding: 40px 0 80px;
+}
+
+.pers-detail-header {
+  display: flex;
+  gap: 40px;
+  align-items: flex-start;
+  margin-bottom: 40px;
+}
+
+.pers-detail-img {
+  width: 260px;
+  height: 340px;
+  object-fit: cover;
+  object-position: top;
+  border-radius: 18px;
+  border: 2px solid var(--cat-color);
+  flex-shrink: 0;
+  box-shadow: 0 20px 48px rgba(0,0,0,0.6);
+}
+
+.pers-detail-img-placeholder {
+  width: 260px;
+  height: 340px;
+  border-radius: 18px;
+  border: 2px solid rgba(255,255,255,0.1);
+  background: rgba(255,255,255,0.03);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: rgba(148,163,184,0.15);
+  font-size: 72px;
+  flex-shrink: 0;
+}
+
+.pers-detail-info { flex: 1; padding-top: 8px; }
+
+.pers-detail-cat {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  font-family: 'Inter', sans-serif;
+  font-weight: 600;
+  color: var(--cat-color);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin-bottom: 12px;
+}
+
+.pers-detail-cat .fas { transform: none !important; }
+
+.pers-detail-name {
+  font-family: "Pirata One", cursive;
+  font-size: 52px;
+  color: #FDBA74;
+  line-height: 1.1;
+  margin-bottom: 8px;
+  text-shadow: 0 4px 20px rgba(245,158,11,0.25);
+}
+
+.pers-detail-role {
+  font-family: "Cormorant Garamond", serif;
+  font-size: 20px;
+  color: #94A3B8;
+  margin-bottom: 16px;
+}
+
+.pers-detail-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 24px;
+}
+
+.pers-detail-stats {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.pers-stat {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+}
+
+.pers-stat dt {
+  font-size: 11px;
+  font-family: 'Inter', sans-serif;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #475569;
+  min-width: 140px;
+  flex-shrink: 0;
+}
+
+.pers-stat dd {
+  font-family: "Cormorant Garamond", serif;
+  font-size: 18px;
+  color: #F8FAFC;
+}
+
+.pers-detail-desc {
+  background: rgba(8,13,24,0.6);
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 16px;
+  padding: 28px 32px;
+  margin-bottom: 32px;
+}
+
+.pers-detail-desc h2 {
+  font-family: "Pirata One", cursive;
+  font-size: 24px;
+  color: #FDBA74;
+  margin-bottom: 14px;
+}
+
+.pers-detail-desc p {
+  font-family: "Cormorant Garamond", serif;
+  font-size: 18px;
+  color: #CBD5E1;
+  line-height: 1.8;
+}
+
+.pers-back-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 24px;
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 10px;
+  color: #94A3B8;
+  text-decoration: none;
+  font-size: 14px;
+  font-family: 'Inter', sans-serif;
+  font-weight: 500;
+  transition: background 0.2s, color 0.2s, border-color 0.2s;
+}
+
+.pers-back-btn:hover {
+  background: rgba(255,255,255,0.08);
+  color: #F8FAFC;
+  border-color: rgba(255,255,255,0.2);
+}
+
+.pers-back-btn .fas { transform: none !important; }
+
+/* ════════════════════════════════════════════════════════════
+   RESPONSIVE
+════════════════════════════════════════════════════════════ */
+@media (max-width: 900px) {
+  .pers-container { padding: 0 20px; }
+  .pers-breadcrumb { padding: 16px 20px 0; }
+  .pers-page-title { font-size: 44px; }
+  .pers-cat-grid { grid-template-columns: 1fr; }
+  .pers-detail-header { flex-direction: column; align-items: center; gap: 28px; }
+  .pers-detail-img, .pers-detail-img-placeholder { width: 100%; max-width: 300px; height: 360px; }
+  .pers-detail-name { font-size: 38px; text-align: center; }
+  .pers-detail-role { text-align: center; }
+  .pers-detail-cat { justify-content: center; }
+  .pers-detail-tags { justify-content: center; }
+  .pers-detail-stats { align-items: center; }
+  .pers-stat { flex-direction: column; gap: 2px; align-items: center; }
+  .pers-stat dt { min-width: 0; text-align: center; }
+}
+
+@media (max-width: 600px) {
+  .pers-page { padding-top: 70px; }
+  .pers-page-title { font-size: 32px; }
+  .pers-page-subtitle { font-size: 16px; }
+  .pers-overview-hero { padding: 28px 16px 24px; }
+  .pers-container { padding: 0 14px; }
+  .pers-breadcrumb { padding: 12px 14px 0; }
+  .pers-cat-hero { flex-direction: column; gap: 14px; padding: 24px 0 20px; }
+  .pers-cat-hero-name { font-size: 32px; }
+  .pers-sub-grid { grid-template-columns: 1fr 1fr; gap: 12px; }
+  .pers-char-grid { grid-template-columns: 1fr 1fr; gap: 12px; }
+  .pers-char-card-img, .pers-char-card-img-placeholder { height: 150px; }
+  .pers-sub-hero-title { font-size: 30px; }
+  .pers-detail-desc { padding: 20px; }
+  .pers-detail-desc p { font-size: 16px; }
+}
+
+@media (max-width: 380px) {
+  .pers-sub-grid { grid-template-columns: 1fr; }
+  .pers-char-grid { grid-template-columns: 1fr; }
+}

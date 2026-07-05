@@ -49,6 +49,16 @@
           <i class="fas fa-users"></i> Utilisateurs
         </button>
 
+        <div class="admin-nav-section-label" style="margin-top:8px;">Structure</div>
+
+        <button class="admin-nav-item" data-panel="categories">
+          <i class="fas fa-layer-group"></i> Catégories
+        </button>
+
+        <button class="admin-nav-item" data-panel="subcategories">
+          <i class="fas fa-sitemap"></i> Sous-catégories
+        </button>
+
         <div class="admin-nav-section-label" style="margin-top:8px;">Contenu</div>
 
         <button class="admin-nav-item" data-panel="characters">
@@ -286,6 +296,141 @@
           </div>
         </div>
 
+        <!-- ── CATEGORIES PANEL ──────────────────────────── -->
+        <div class="admin-panel" id="panel-categories">
+
+          <div class="chars-view" id="cats-view-list">
+            <div class="dash-card-header" style="margin-bottom:20px;">
+              <div class="dash-card-title"><i class="fas fa-layer-group"></i> Catégories</div>
+              <button class="btn-save-primary" id="btn-add-category" style="margin-top:0;">
+                <i class="fas fa-plus"></i> Ajouter
+              </button>
+            </div>
+            <div id="cats-list-content"><div class="chars-loading">Chargement…</div></div>
+          </div>
+
+          <div class="chars-view" id="cats-view-form" style="display:none;">
+            <div class="dash-card">
+              <div class="dash-card-header">
+                <div class="dash-card-title" id="cats-form-title"><i class="fas fa-plus"></i> Ajouter une catégorie</div>
+                <button class="btn-chars-back" id="btn-cats-back"><i class="fas fa-arrow-left"></i> Retour</button>
+              </div>
+              <input type="hidden" id="cat-edit-id">
+              <div class="chars-form-grid">
+                <div class="event-field">
+                  <label class="event-field-label">Nom *</label>
+                  <input type="text" class="event-field-input" id="cat-name" placeholder="Ex : Pirates">
+                </div>
+                <div class="event-field">
+                  <label class="event-field-label">Slug *</label>
+                  <input type="text" class="event-field-input" id="cat-slug" placeholder="Ex : pirates">
+                </div>
+                <div class="event-field">
+                  <label class="event-field-label">Icône FontAwesome</label>
+                  <input type="text" class="event-field-input" id="cat-icon" placeholder="Ex : skull-crossbones">
+                </div>
+                <div class="event-field">
+                  <label class="event-field-label">Couleur (hex)</label>
+                  <input type="text" class="event-field-input" id="cat-color" placeholder="Ex : #F59E0B">
+                </div>
+                <div class="event-field">
+                  <label class="event-field-label">Ordre d'affichage</label>
+                  <input type="number" class="event-field-input" id="cat-sort" value="0" min="0">
+                </div>
+                <div class="event-field full">
+                  <label class="event-field-label">Description</label>
+                  <textarea class="event-field-input" id="cat-description" rows="3" placeholder="Description de la catégorie…"></textarea>
+                </div>
+              </div>
+              <div style="display:flex;gap:12px;margin-top:20px;flex-wrap:wrap;">
+                <button class="btn-save-primary" id="btn-cat-save"><i class="fas fa-save"></i> Enregistrer</button>
+                <button class="btn-chars-back" id="btn-cat-cancel">Annuler</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="chars-modal-overlay" id="cats-delete-modal" style="display:none;">
+            <div class="chars-modal">
+              <div class="chars-modal-title"><i class="fas fa-exclamation-triangle"></i> Confirmer la suppression</div>
+              <p class="chars-modal-body">Supprimer la catégorie <strong id="cats-delete-name"></strong> ? Les sous-catégories liées seront également supprimées.</p>
+              <div class="chars-modal-actions">
+                <button class="btn-table-delete" id="btn-cat-delete-confirm">Supprimer</button>
+                <button class="btn-chars-back" id="btn-cat-delete-cancel">Annuler</button>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- ── SUBCATEGORIES PANEL ───────────────────────── -->
+        <div class="admin-panel" id="panel-subcategories">
+
+          <div class="chars-view" id="subs-view-list">
+            <div class="dash-card-header" style="margin-bottom:20px;">
+              <div class="dash-card-title"><i class="fas fa-sitemap"></i> Sous-catégories</div>
+              <button class="btn-save-primary" id="btn-add-subcategory" style="margin-top:0;">
+                <i class="fas fa-plus"></i> Ajouter
+              </button>
+            </div>
+            <div id="subs-filter-row" style="margin-bottom:16px;"></div>
+            <div id="subs-list-content"><div class="chars-loading">Chargement…</div></div>
+          </div>
+
+          <div class="chars-view" id="subs-view-form" style="display:none;">
+            <div class="dash-card">
+              <div class="dash-card-header">
+                <div class="dash-card-title" id="subs-form-title"><i class="fas fa-plus"></i> Ajouter une sous-catégorie</div>
+                <button class="btn-chars-back" id="btn-subs-back"><i class="fas fa-arrow-left"></i> Retour</button>
+              </div>
+              <input type="hidden" id="sub-edit-id">
+              <div class="chars-form-grid">
+                <div class="event-field">
+                  <label class="event-field-label">Nom *</label>
+                  <input type="text" class="event-field-input" id="sub-name" placeholder="Ex : Équipages pirates">
+                </div>
+                <div class="event-field">
+                  <label class="event-field-label">Catégorie parente *</label>
+                  <select class="event-field-input" id="sub-category">
+                    <option value="">Choisir une catégorie</option>
+                  </select>
+                </div>
+                <div class="event-field">
+                  <label class="event-field-label">Slug *</label>
+                  <input type="text" class="event-field-input" id="sub-slug" placeholder="Ex : equipages-pirates">
+                </div>
+                <div class="event-field">
+                  <label class="event-field-label">Ordre d'affichage</label>
+                  <input type="number" class="event-field-input" id="sub-sort" value="0" min="0">
+                </div>
+                <div class="event-field">
+                  <label class="event-field-label">URL de l'image</label>
+                  <input type="url" class="event-field-input" id="sub-image-url" placeholder="https://…">
+                </div>
+                <div class="event-field full">
+                  <label class="event-field-label">Description</label>
+                  <textarea class="event-field-input" id="sub-description" rows="3" placeholder="Description de la sous-catégorie…"></textarea>
+                </div>
+              </div>
+              <div style="display:flex;gap:12px;margin-top:20px;flex-wrap:wrap;">
+                <button class="btn-save-primary" id="btn-sub-save"><i class="fas fa-save"></i> Enregistrer</button>
+                <button class="btn-chars-back" id="btn-sub-cancel">Annuler</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="chars-modal-overlay" id="subs-delete-modal" style="display:none;">
+            <div class="chars-modal">
+              <div class="chars-modal-title"><i class="fas fa-exclamation-triangle"></i> Confirmer la suppression</div>
+              <p class="chars-modal-body">Supprimer la sous-catégorie <strong id="subs-delete-name"></strong> ? Les personnages liés ne seront pas supprimés mais perdront leur sous-catégorie.</p>
+              <div class="chars-modal-actions">
+                <button class="btn-table-delete" id="btn-sub-delete-confirm">Supprimer</button>
+                <button class="btn-chars-back" id="btn-sub-delete-cancel">Annuler</button>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
         <!-- ── CHARACTERS PANEL ──────────────────────────── -->
         <div class="admin-panel" id="panel-characters">
 
@@ -322,8 +467,14 @@
                 </div>
                 <div class="event-field">
                   <label class="event-field-label">Catégorie *</label>
-                  <select class="event-field-input" id="char-category">
+                  <select class="event-field-input" id="char-top-category">
                     <option value="">Choisir une catégorie</option>
+                  </select>
+                </div>
+                <div class="event-field" id="char-sub-field">
+                  <label class="event-field-label">Sous-catégorie *</label>
+                  <select class="event-field-input" id="char-subcategory" disabled>
+                    <option value="">Sélectionnez d'abord une catégorie</option>
                   </select>
                 </div>
                 <div class="event-field">
