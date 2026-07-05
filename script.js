@@ -40,32 +40,34 @@ if (preloader) {
 
 const video = document.querySelector('.video-fullscreen');
 
-video.addEventListener("click", () => {
-    video.classList.add("fade-transition");
-    setTimeout(() => {
-        video.currentTime = 0;
-        video.muted = false;
-        video.play();
-        video.controls = true;
-        video.style.cursor = "default";
-        video.style.pointerEvents = "none";
+if (video) {
+    video.addEventListener("click", () => {
+        video.classList.add("fade-transition");
+        setTimeout(() => {
+            video.currentTime = 0;
+            video.muted = false;
+            video.play();
+            video.controls = true;
+            video.style.cursor = "default";
+            video.style.pointerEvents = "none";
 
-    if (video.requestFullscreen) {
-        video.requestFullscreen();
-    } else if (video.webkitRequestFullscreen) { 
-        video.webkitRequestFullscreen();
-    } else if (video.msRequestFullscreen) {
-        video.msRequestFullscreen();
-    }
-    video.classList.remove("fade-transition");
-    }, 300);
-});
+            if (video.requestFullscreen) {
+                video.requestFullscreen();
+            } else if (video.webkitRequestFullscreen) {
+                video.webkitRequestFullscreen();
+            } else if (video.msRequestFullscreen) {
+                video.msRequestFullscreen();
+            }
+            video.classList.remove("fade-transition");
+        }, 300);
+    });
 
-document.addEventListener('fullscreenchange', () => {
-    if (!document.fullscreenElement) {
-        video.muted = true;
-        video.controls = false;
-        video.style.cursor = "pointer";
-        video.style.pointerEvents = "auto";
-    }
-});
+    document.addEventListener('fullscreenchange', () => {
+        if (!document.fullscreenElement) {
+            video.muted = true;
+            video.controls = false;
+            video.style.cursor = "pointer";
+            video.style.pointerEvents = "auto";
+        }
+    });
+}
