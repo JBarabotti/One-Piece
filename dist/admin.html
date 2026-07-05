@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Administration — One Piece</title>
+  <script src="https://kit.fontawesome.com/dd226ad74d.js" crossorigin="anonymous"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Cormorant+Garamond:wght@400;600&family=Pirata+One&display=swap" rel="stylesheet">
+  <script type="module" crossorigin src="/assets/admin-kB5dju0-.js"></script>
+  <link rel="modulepreload" crossorigin href="/assets/auth-cuwOp2C2.js">
+  <link rel="stylesheet" crossorigin href="/assets/auth-Dqo7-QUM.css">
+  <link rel="stylesheet" crossorigin href="/assets/admin-x3paH_te.css">
+</head>
+<body style="margin:0; padding:0; background:#050911;">
+
+  <!-- Mobile sidebar overlay -->
+  <div class="admin-sidebar-overlay" id="sidebar-overlay"></div>
+
+  <div class="admin-layout">
+
+    <!-- ── SIDEBAR ──────────────────────────────────────── -->
+    <aside class="admin-sidebar" id="admin-sidebar">
+
+      <div class="admin-sidebar-logo">
+        <img src="/assets/Logo--aBiWoR-.png" alt="One Piece">
+        <div class="admin-sidebar-logo-text">
+          <span class="admin-sidebar-logo-title">One Piece</span>
+          <span class="admin-sidebar-logo-sub">Admin Panel</span>
+        </div>
+      </div>
+
+      <div class="admin-sidebar-user" id="sidebar-user">
+        <div class="admin-sidebar-avatar" id="sidebar-avatar"></div>
+        <div class="admin-sidebar-user-info">
+          <div class="admin-sidebar-user-name" id="sidebar-username">Chargement…</div>
+          <div class="admin-sidebar-user-role">Administrateur</div>
+        </div>
+      </div>
+
+      <nav class="admin-nav">
+        <div class="admin-nav-section-label">Navigation</div>
+
+        <button class="admin-nav-item active" data-panel="dashboard">
+          <i class="fas fa-chart-bar nav-icon"></i><span class="nav-label">Tableau de bord</span>
+        </button>
+
+        <button class="admin-nav-item" data-panel="users">
+          <i class="fas fa-users nav-icon"></i><span class="nav-label">Utilisateurs</span>
+        </button>
+
+        <div class="admin-nav-section-label" style="margin-top:8px;">Contenu</div>
+
+        <button class="admin-nav-item" data-panel="characters">
+          <i class="fas fa-dragon nav-icon"></i><span class="nav-label">Personnages</span>
+        </button>
+
+        <button class="admin-nav-item" data-panel="event-anime">
+          <i class="fas fa-tv nav-icon"></i><span class="nav-label">Évènement Animé</span>
+        </button>
+
+        <button class="admin-nav-item" data-panel="event-manga">
+          <i class="fas fa-book-open nav-icon"></i><span class="nav-label">Évènement Manga</span>
+        </button>
+
+        <div class="admin-nav-section-label" style="margin-top:8px;">Messagerie</div>
+
+        <button class="admin-nav-item" data-panel="send-message">
+          <i class="fas fa-envelope nav-icon"></i><span class="nav-label">Envoyer un message</span>
+        </button>
+      </nav>
+
+      <div class="admin-sidebar-footer">
+        <a href="index.html" class="admin-sidebar-footer-link">
+          <i class="fas fa-arrow-left"></i> Retour au site
+        </a>
+        <button class="admin-sidebar-footer-link danger" id="admin-signout">
+          <i class="fas fa-sign-out-alt"></i> Déconnexion
+        </button>
+      </div>
+
+    </aside>
+
+    <!-- ── MAIN CONTENT ──────────────────────────────────── -->
+    <div class="admin-main">
+
+      <!-- Top bar -->
+      <div class="admin-topbar">
+        <button class="admin-menu-toggle" id="menu-toggle">
+          <i class="fas fa-bars"></i>
+        </button>
+        <div class="admin-topbar-breadcrumb">
+          <span>One Piece</span>
+          <span class="sep">/</span>
+          <span class="admin-topbar-page" id="topbar-title">Tableau de bord</span>
+        </div>
+        <div class="admin-topbar-actions">
+          <span class="admin-topbar-badge">Accès Admin</span>
+        </div>
+      </div>
+
+      <div class="admin-content">
+
+        <div id="alert-global"></div>
+
+        <!-- ── DASHBOARD PANEL ──────────────────────────── -->
+        <div class="admin-panel active" id="panel-dashboard">
+
+          <div class="dashboard-stats" id="dashboard-stats">
+            <div class="stat-card">
+              <div class="stat-icon amber"><i class="fas fa-users"></i></div>
+              <div class="stat-info">
+                <div class="stat-value" id="stat-users">—</div>
+                <div class="stat-label">Utilisateurs</div>
+              </div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-icon blue"><i class="fas fa-envelope"></i></div>
+              <div class="stat-info">
+                <div class="stat-value" id="stat-messages">—</div>
+                <div class="stat-label">Messages envoyés</div>
+              </div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-icon green"><i class="fas fa-skull-crossbones"></i></div>
+              <div class="stat-info">
+                <div class="stat-value" id="stat-pirates">—</div>
+                <div class="stat-label">Pirates</div>
+              </div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-icon red"><i class="fas fa-anchor"></i></div>
+              <div class="stat-info">
+                <div class="stat-value" id="stat-marines">—</div>
+                <div class="stat-label">Marines</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="dash-card">
+            <div class="dash-card-header">
+              <div class="dash-card-title"><i class="fas fa-clock"></i> Derniers inscrits</div>
+            </div>
+            <div class="dash-table-wrap">
+              <table class="dash-table">
+                <thead>
+                  <tr>
+                    <th>Utilisateur</th>
+                    <th>Faction</th>
+                    <th>Rôle</th>
+                    <th>Inscrit le</th>
+                  </tr>
+                </thead>
+                <tbody id="recent-users-tbody">
+                  <tr><td colspan="4" style="color:#475569;text-align:center;padding:20px;">Chargement…</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- ── USERS PANEL ──────────────────────────────── -->
+        <div class="admin-panel" id="panel-users">
+          <div class="dash-card">
+            <div class="dash-card-header">
+              <div class="dash-card-title"><i class="fas fa-users"></i> Gestion des utilisateurs</div>
+            </div>
+            <div class="dash-table-wrap">
+              <table class="dash-table">
+                <thead>
+                  <tr>
+                    <th>Utilisateur</th>
+                    <th>E-mail</th>
+                    <th>Faction</th>
+                    <th>Rôle</th>
+                    <th>Inscription</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="users-tbody">
+                  <tr><td colspan="6" style="color:#475569;text-align:center;padding:24px;">Chargement…</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <!-- ── EVENT ANIME PANEL ────────────────────────── -->
+        <div class="admin-panel" id="panel-event-anime">
+          <div class="dash-card">
+            <div class="dash-card-header">
+              <div class="dash-card-title"><i class="fas fa-tv"></i> Évènement actuel — Animé</div>
+            </div>
+            <div class="event-grid" id="event-editor-anime">
+              <div class="event-field">
+                <label class="event-field-label">Arc</label>
+                <input class="event-field-input" data-key="arc" placeholder="Nom de l'arc en cours">
+              </div>
+              <div class="event-field">
+                <label class="event-field-label">Épisode</label>
+                <input class="event-field-input" data-key="episode_chapter" placeholder="Épisode XXX">
+              </div>
+              <div class="event-field">
+                <label class="event-field-label">Lieu</label>
+                <input class="event-field-input" data-key="location" placeholder="Île, ville ou pays">
+              </div>
+              <div class="event-field">
+                <label class="event-field-label">Date</label>
+                <input class="event-field-input" data-key="event_date" placeholder="Ex : Juillet 2026">
+              </div>
+              <div class="event-field full">
+                <label class="event-field-label">Description</label>
+                <textarea class="event-field-input" data-key="description" placeholder="Il se passe…"></textarea>
+              </div>
+            </div>
+            <button class="btn-save-primary" data-type="anime" style="margin-top:18px;">
+              <i class="fas fa-save"></i> Enregistrer l'animé
+            </button>
+          </div>
+        </div>
+
+        <!-- ── EVENT MANGA PANEL ────────────────────────── -->
+        <div class="admin-panel" id="panel-event-manga">
+          <div class="dash-card">
+            <div class="dash-card-header">
+              <div class="dash-card-title"><i class="fas fa-book-open"></i> Évènement actuel — Manga</div>
+            </div>
+            <div class="event-grid" id="event-editor-manga">
+              <div class="event-field">
+                <label class="event-field-label">Arc</label>
+                <input class="event-field-input" data-key="arc" placeholder="Nom de l'arc en cours">
+              </div>
+              <div class="event-field">
+                <label class="event-field-label">Chapitre</label>
+                <input class="event-field-input" data-key="episode_chapter" placeholder="Chapitre XXX">
+              </div>
+              <div class="event-field">
+                <label class="event-field-label">Lieu</label>
+                <input class="event-field-input" data-key="location" placeholder="Île, ville ou pays">
+              </div>
+              <div class="event-field">
+                <label class="event-field-label">Date</label>
+                <input class="event-field-input" data-key="event_date" placeholder="Ex : Juillet 2026">
+              </div>
+              <div class="event-field full">
+                <label class="event-field-label">Description</label>
+                <textarea class="event-field-input" data-key="description" placeholder="Il se passe…"></textarea>
+              </div>
+            </div>
+            <button class="btn-save-primary" data-type="manga" style="margin-top:18px;">
+              <i class="fas fa-save"></i> Enregistrer le manga
+            </button>
+          </div>
+        </div>
+
+        <!-- ── CHARACTERS PANEL ────────────────────────── -->
+        <div class="admin-panel" id="panel-characters">
+
+          <!-- Category manager -->
+          <div class="dash-card" style="margin-bottom:20px;">
+            <div class="dash-card-header">
+              <div class="dash-card-title"><i class="fas fa-layer-group"></i> Catégories</div>
+            </div>
+            <table class="cats-table" id="cats-table">
+              <thead><tr><th>Nom</th><th>Slug</th><th>Actions</th></tr></thead>
+              <tbody id="cats-tbody">
+                <tr><td colspan="3" style="color:#475569;text-align:center;padding:16px;">Chargement…</td></tr>
+              </tbody>
+            </table>
+            <div class="cat-add-form" id="cat-add-form">
+              <input type="text" id="cat-name-input" class="event-field-input" placeholder="Nom de la catégorie" style="flex:1;">
+              <button class="btn-save-primary" id="cat-add-btn" style="margin:0;white-space:nowrap;"><i class="fas fa-plus"></i> Ajouter</button>
+            </div>
+          </div>
+
+          <!-- Characters list -->
+          <div class="dash-card">
+            <div class="dash-card-header">
+              <div class="dash-card-title"><i class="fas fa-dragon"></i> Personnages</div>
+              <button class="btn-save-primary" id="char-add-btn" style="margin:0;">
+                <i class="fas fa-plus"></i> Nouveau personnage
+              </button>
+            </div>
+
+            <!-- Category filter chips -->
+            <div class="category-chips" id="category-chips">
+              <button class="cat-chip active" data-cat-id="all">Tous</button>
+            </div>
+
+            <!-- Characters grid -->
+            <div class="chars-grid" id="chars-grid">
+              <div style="color:#475569;text-align:center;padding:32px;grid-column:1/-1;">Chargement…</div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Character add/edit modal -->
+        <div class="char-modal" id="char-modal">
+          <div class="char-modal-box">
+            <div class="char-modal-header">
+              <div class="char-modal-title" id="char-modal-title">Nouveau personnage</div>
+              <button class="char-modal-close" id="char-modal-close"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="char-modal-body">
+              <div class="char-modal-img-col">
+                <div class="char-img-preview" id="char-img-preview">
+                  <i class="fas fa-image" style="font-size:32px;color:#334155;"></i>
+                </div>
+                <label class="btn-save-primary" for="char-img-upload" style="margin:0;cursor:pointer;text-align:center;display:block;">
+                  <i class="fas fa-upload"></i> Image
+                </label>
+                <input type="file" id="char-img-upload" accept="image/*" style="display:none;">
+              </div>
+              <div class="char-modal-fields">
+                <div class="event-field">
+                  <label class="event-field-label">Nom *</label>
+                  <input type="text" class="event-field-input" id="char-name">
+                </div>
+                <div class="event-field">
+                  <label class="event-field-label">Catégorie *</label>
+                  <select class="event-field-input" id="char-category"></select>
+                </div>
+                <div class="event-field">
+                  <label class="event-field-label">Faction</label>
+                  <select class="event-field-input" id="char-faction">
+                    <option value="">— Aucune —</option>
+                    <option value="pirate">Pirate</option>
+                    <option value="marine">Marine</option>
+                    <option value="revolutionnaire">Révolutionnaire</option>
+                    <option value="neutre">Neutre</option>
+                  </select>
+                </div>
+                <div class="event-field">
+                  <label class="event-field-label">Fruit du démon</label>
+                  <input type="text" class="event-field-input" id="char-devil-fruit" placeholder="Ex : Gomu Gomu no Mi">
+                </div>
+                <div class="event-field">
+                  <label class="event-field-label">Prime</label>
+                  <input type="text" class="event-field-input" id="char-bounty" placeholder="Ex : 3 000 000 000">
+                </div>
+                <div class="event-field">
+                  <label class="event-field-label">Statut</label>
+                  <select class="event-field-input" id="char-status">
+                    <option value="vivant">Vivant</option>
+                    <option value="mort">Mort</option>
+                    <option value="inconnu">Inconnu</option>
+                  </select>
+                </div>
+                <div class="event-field" style="grid-column:1/-1;">
+                  <label class="event-field-label">Description</label>
+                  <textarea class="event-field-input" id="char-description" rows="4" placeholder="Présentation du personnage…"></textarea>
+                </div>
+              </div>
+            </div>
+            <div class="char-modal-footer">
+              <button class="char-modal-cancel" id="char-modal-cancel">Annuler</button>
+              <button class="btn-save-primary" id="char-modal-save" style="margin:0;"><i class="fas fa-save"></i> Enregistrer</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- ── SEND MESSAGE PANEL ───────────────────────── -->
+        <div class="admin-panel" id="panel-send-message">
+          <div class="dash-card">
+            <div class="dash-card-header">
+              <div class="dash-card-title"><i class="fas fa-envelope"></i> Envoyer un message</div>
+            </div>
+            <div class="msg-form-grid">
+              <div class="event-field">
+                <label class="event-field-label">Destinataire (nom d'utilisateur)</label>
+                <input type="text" id="msg-target-username" class="event-field-input" placeholder="NomDUtilisateur">
+                <div id="msg-target-status" style="font-size:12px;margin-top:6px;font-family:'Inter',sans-serif;"></div>
+              </div>
+              <div class="event-field">
+                <label class="event-field-label">Message</label>
+                <textarea id="msg-content" class="event-field-input" rows="5" placeholder="Votre message…"></textarea>
+              </div>
+              <div>
+                <button class="btn-save-primary" id="admin-send-msg-btn">
+                  <i class="fas fa-paper-plane"></i> Envoyer
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div><!-- /admin-content -->
+    </div><!-- /admin-main -->
+
+  </div><!-- /admin-layout -->
+
+</body>
+</html>
