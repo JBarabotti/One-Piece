@@ -7,7 +7,6 @@ initHeader()
 
 let currentUser = null
 let profile = null
-let selectedFaction = null
 
 const FACTION_LABELS = { pirate: 'Pirate', marine: 'Marine', revolutionnaire: 'Révolutionnaire' }
 
@@ -205,38 +204,7 @@ document.getElementById('username-save-btn').addEventListener('click', async () 
 
 // ── Faction edit ──────────────────────────────────────────────
 document.getElementById('faction-edit-btn').addEventListener('click', () => {
-  document.getElementById('faction-edit-form').style.display = 'block'
-  document.getElementById('faction-edit-btn').style.display = 'none'
-  selectedFaction = profile.faction
-  document.querySelectorAll('.faction-option-btn').forEach(b => {
-    b.classList.toggle('active', b.dataset.f === profile.faction)
-  })
-})
-
-document.querySelectorAll('.faction-option-btn').forEach(btn => {
-  btn.addEventListener('click', () => {
-    document.querySelectorAll('.faction-option-btn').forEach(b => b.classList.remove('active'))
-    btn.classList.add('active')
-    selectedFaction = btn.dataset.f
-  })
-})
-
-document.getElementById('faction-cancel-btn').addEventListener('click', () => {
-  document.getElementById('faction-edit-form').style.display = 'none'
-  document.getElementById('faction-edit-btn').style.display = 'inline-flex'
-})
-
-document.getElementById('faction-save-btn').addEventListener('click', async () => {
-  if (!selectedFaction) return
-  const { error } = await supabase.from('profiles').update({ faction: selectedFaction }).eq('id', currentUser.id)
-  if (error) { showGlobal(error.message, 'error'); return }
-
-  profile.faction = selectedFaction
-  applyFactionTheme(selectedFaction)
-  document.getElementById('profile-faction-badge').innerHTML = renderFactionBadge(selectedFaction)
-  document.getElementById('faction-val').innerHTML = renderFactionBadge(selectedFaction)
-  document.getElementById('faction-cancel-btn').click()
-  showGlobal('Faction mise à jour.')
+  window.location.href = '/faction.html?from=profile'
 })
 
 // ── Password edit ─────────────────────────────────────────────

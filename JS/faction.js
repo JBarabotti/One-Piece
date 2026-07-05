@@ -7,19 +7,31 @@ initHeader()
 let currentUser = null
 let selectedFaction = null
 
+const fromProfile = new URLSearchParams(location.search).get('from') === 'profile'
+
 ;(async () => {
   currentUser = await requireAuth()
   if (!currentUser) return
 
-  // If user already has a faction, redirect to profile
   const { data: profile } = await supabase
     .from('profiles')
     .select('faction')
     .eq('id', currentUser.id)
     .maybeSingle()
 
-  if (profile?.faction) {
+  // When coming from profile, pre-select current faction instead of redirecting away
+  if (profile?.faction && !fromProfile) {
     window.location.href = '/profile.html'
+    return
+  }
+
+  if (profile?.faction && fromProfile) {
+    const card = document.querySelector(`.faction-card[data-faction="${profile.faction}"]`)
+    if (card) {
+      card.classList.add('selected')
+      selectedFaction = profile.faction
+      document.getElementById('confirm-btn').disabled = false
+    }
   }
 })()
 
