@@ -1,4 +1,4 @@
-import{a as o,s as t}from"./auth-Drg8p9I1.js";const m=`
+import{a as o,s as t}from"./auth-AcyiL45k.js";const m=`
   <a href="/index.html" class="logo">
     <img src="/IMG/Logo.png" alt="Logo de One Piece" width="150">
   </a>
