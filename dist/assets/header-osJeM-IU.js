@@ -1,6 +1,6 @@
 import{a as o,s as t}from"./auth-AcyiL45k.js";const m=`
   <a href="/index.html" class="logo">
-    <img src="IMG/Logo.png" alt="Logo de One Piece" width="150">
+    <img src="/IMG/Logo.png" alt="Logo de One Piece" width="150">
   </a>
   <nav>
     <ul>
@@ -125,7 +125,7 @@ import{a as o,s as t}from"./auth-AcyiL45k.js";const m=`
   <aside class="mobile-nav" id="mobile-nav" aria-hidden="true">
     <div class="mobile-nav-header">
       <a href="/index.html" class="mobile-nav-logo">
-        <img src="IMG/Logo.png" alt="One Piece" height="40">
+        <img src="/IMG/Logo.png" alt="One Piece" height="40">
       </a>
       <button class="mobile-nav-close" id="mobile-nav-close" aria-label="Fermer">
         <i class="fas fa-times"></i>
