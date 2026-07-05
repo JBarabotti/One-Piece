@@ -42,31 +42,27 @@
         <div class="admin-nav-section-label">Navigation</div>
 
         <button class="admin-nav-item active" data-panel="dashboard">
-          <i class="fas fa-chart-bar nav-icon"></i><span class="nav-label">Tableau de bord</span>
+          <i class="fas fa-chart-bar"></i> Tableau de bord
         </button>
 
         <button class="admin-nav-item" data-panel="users">
-          <i class="fas fa-users nav-icon"></i><span class="nav-label">Utilisateurs</span>
+          <i class="fas fa-users"></i> Utilisateurs
         </button>
 
         <div class="admin-nav-section-label" style="margin-top:8px;">Contenu</div>
 
-        <button class="admin-nav-item" data-panel="characters">
-          <i class="fas fa-dragon nav-icon"></i><span class="nav-label">Personnages</span>
-        </button>
-
         <button class="admin-nav-item" data-panel="event-anime">
-          <i class="fas fa-tv nav-icon"></i><span class="nav-label">Évènement Animé</span>
+          <i class="fas fa-tv"></i> Évènement Animé
         </button>
 
         <button class="admin-nav-item" data-panel="event-manga">
-          <i class="fas fa-book-open nav-icon"></i><span class="nav-label">Évènement Manga</span>
+          <i class="fas fa-book-open"></i> Évènement Manga
         </button>
 
         <div class="admin-nav-section-label" style="margin-top:8px;">Messagerie</div>
 
         <button class="admin-nav-item" data-panel="send-message">
-          <i class="fas fa-envelope nav-icon"></i><span class="nav-label">Envoyer un message</span>
+          <i class="fas fa-envelope"></i> Envoyer un message
         </button>
       </nav>
 
@@ -251,113 +247,6 @@
             <button class="btn-save-primary" data-type="manga" style="margin-top:18px;">
               <i class="fas fa-save"></i> Enregistrer le manga
             </button>
-          </div>
-        </div>
-
-        <!-- ── CHARACTERS PANEL ────────────────────────── -->
-        <div class="admin-panel" id="panel-characters">
-
-          <!-- Category manager -->
-          <div class="dash-card" style="margin-bottom:20px;">
-            <div class="dash-card-header">
-              <div class="dash-card-title"><i class="fas fa-layer-group"></i> Catégories</div>
-            </div>
-            <table class="cats-table" id="cats-table">
-              <thead><tr><th>Nom</th><th>Slug</th><th>Actions</th></tr></thead>
-              <tbody id="cats-tbody">
-                <tr><td colspan="3" style="color:#475569;text-align:center;padding:16px;">Chargement…</td></tr>
-              </tbody>
-            </table>
-            <div class="cat-add-form" id="cat-add-form">
-              <input type="text" id="cat-name-input" class="event-field-input" placeholder="Nom de la catégorie" style="flex:1;">
-              <button class="btn-save-primary" id="cat-add-btn" style="margin:0;white-space:nowrap;"><i class="fas fa-plus"></i> Ajouter</button>
-            </div>
-          </div>
-
-          <!-- Characters list -->
-          <div class="dash-card">
-            <div class="dash-card-header">
-              <div class="dash-card-title"><i class="fas fa-dragon"></i> Personnages</div>
-              <button class="btn-save-primary" id="char-add-btn" style="margin:0;">
-                <i class="fas fa-plus"></i> Nouveau personnage
-              </button>
-            </div>
-
-            <!-- Category filter chips -->
-            <div class="category-chips" id="category-chips">
-              <button class="cat-chip active" data-cat-id="all">Tous</button>
-            </div>
-
-            <!-- Characters grid -->
-            <div class="chars-grid" id="chars-grid">
-              <div style="color:#475569;text-align:center;padding:32px;grid-column:1/-1;">Chargement…</div>
-            </div>
-          </div>
-
-        </div>
-
-        <!-- Character add/edit modal -->
-        <div class="char-modal" id="char-modal">
-          <div class="char-modal-box">
-            <div class="char-modal-header">
-              <div class="char-modal-title" id="char-modal-title">Nouveau personnage</div>
-              <button class="char-modal-close" id="char-modal-close"><i class="fas fa-times"></i></button>
-            </div>
-            <div class="char-modal-body">
-              <div class="char-modal-img-col">
-                <div class="char-img-preview" id="char-img-preview">
-                  <i class="fas fa-image" style="font-size:32px;color:#334155;"></i>
-                </div>
-                <label class="btn-save-primary" for="char-img-upload" style="margin:0;cursor:pointer;text-align:center;display:block;">
-                  <i class="fas fa-upload"></i> Image
-                </label>
-                <input type="file" id="char-img-upload" accept="image/*" style="display:none;">
-              </div>
-              <div class="char-modal-fields">
-                <div class="event-field">
-                  <label class="event-field-label">Nom *</label>
-                  <input type="text" class="event-field-input" id="char-name">
-                </div>
-                <div class="event-field">
-                  <label class="event-field-label">Catégorie *</label>
-                  <select class="event-field-input" id="char-category"></select>
-                </div>
-                <div class="event-field">
-                  <label class="event-field-label">Faction</label>
-                  <select class="event-field-input" id="char-faction">
-                    <option value="">— Aucune —</option>
-                    <option value="pirate">Pirate</option>
-                    <option value="marine">Marine</option>
-                    <option value="revolutionnaire">Révolutionnaire</option>
-                    <option value="neutre">Neutre</option>
-                  </select>
-                </div>
-                <div class="event-field">
-                  <label class="event-field-label">Fruit du démon</label>
-                  <input type="text" class="event-field-input" id="char-devil-fruit" placeholder="Ex : Gomu Gomu no Mi">
-                </div>
-                <div class="event-field">
-                  <label class="event-field-label">Prime</label>
-                  <input type="text" class="event-field-input" id="char-bounty" placeholder="Ex : 3 000 000 000">
-                </div>
-                <div class="event-field">
-                  <label class="event-field-label">Statut</label>
-                  <select class="event-field-input" id="char-status">
-                    <option value="vivant">Vivant</option>
-                    <option value="mort">Mort</option>
-                    <option value="inconnu">Inconnu</option>
-                  </select>
-                </div>
-                <div class="event-field" style="grid-column:1/-1;">
-                  <label class="event-field-label">Description</label>
-                  <textarea class="event-field-input" id="char-description" rows="4" placeholder="Présentation du personnage…"></textarea>
-                </div>
-              </div>
-            </div>
-            <div class="char-modal-footer">
-              <button class="char-modal-cancel" id="char-modal-cancel">Annuler</button>
-              <button class="btn-save-primary" id="char-modal-save" style="margin:0;"><i class="fas fa-save"></i> Enregistrer</button>
-            </div>
           </div>
         </div>
 
