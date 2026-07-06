@@ -1,4 +1,4 @@
-import{a as o,s as t}from"./auth-AcyiL45k.js";const m=`
+import{a as t,s as m}from"./auth-7nmDyLAw.js";const c=`
   <a href="/index.html" class="logo">
     <img src="/IMG/Logo.png" alt="Logo de One Piece" width="150">
   </a>
@@ -190,10 +190,10 @@ import{a as o,s as t}from"./auth-AcyiL45k.js";const m=`
     </nav>
     <div class="mobile-nav-account" id="mobile-nav-account"></div>
   </aside>
-`;async function v(){const e=document.getElementById("site-header");e&&(e.innerHTML=m,document.body.insertAdjacentHTML("beforeend",u),c(),d(),await h())}function c(){const e=document.getElementById("burger-btn"),a=document.getElementById("mobile-nav"),s=document.getElementById("mobile-nav-overlay"),l=document.getElementById("mobile-nav-close");function n(){a.classList.add("open"),s.classList.add("open"),a.setAttribute("aria-hidden","false"),e.setAttribute("aria-expanded","true"),e.classList.add("open"),document.body.style.overflow="hidden"}function i(){a.classList.remove("open"),s.classList.remove("open"),a.setAttribute("aria-hidden","true"),e.setAttribute("aria-expanded","false"),e.classList.remove("open"),document.body.style.overflow=""}e==null||e.addEventListener("click",n),l==null||l.addEventListener("click",i),s==null||s.addEventListener("click",i)}function d(){document.querySelectorAll(".mobile-nav-group-btn").forEach(e=>{const a=e.nextElementSibling;a&&(a.style.maxHeight="0",a.style.overflow="hidden",a.style.transition="max-height 0.3s ease",e.addEventListener("click",()=>{const s=e.getAttribute("aria-expanded")==="true";document.querySelectorAll('.mobile-nav-group-btn[aria-expanded="true"]').forEach(l=>{l!==e&&(l.setAttribute("aria-expanded","false"),l.nextElementSibling.style.maxHeight="0")}),e.setAttribute("aria-expanded",String(!s)),a.style.maxHeight=s?"0":a.scrollHeight+"px"}))})}async function h(){var l,n;const e=document.getElementById("header-account"),a=document.getElementById("mobile-nav-account");if(!e)return;const{data:{user:s}}=await o.auth.getUser();if(s){const{data:i}=await o.from("profiles").select("username, avatar_url, role").eq("id",s.id).maybeSingle();if(i){const r=i.avatar_url?`<img src="${i.avatar_url}" alt="${i.username}" class="header-avatar-img">`:`<span class="header-avatar-initial">${i.username[0].toUpperCase()}</span>`;e.innerHTML=`
+`;async function f(){const e=document.getElementById("site-header");e&&(e.innerHTML=c,document.body.insertAdjacentHTML("beforeend",u),d(),h(),await b())}function d(){const e=document.getElementById("burger-btn"),a=document.getElementById("mobile-nav"),s=document.getElementById("mobile-nav-overlay"),l=document.getElementById("mobile-nav-close");function n(){a.classList.add("open"),s.classList.add("open"),a.setAttribute("aria-hidden","false"),e.setAttribute("aria-expanded","true"),e.classList.add("open"),document.body.style.overflow="hidden"}function i(){a.classList.remove("open"),s.classList.remove("open"),a.setAttribute("aria-hidden","true"),e.setAttribute("aria-expanded","false"),e.classList.remove("open"),document.body.style.overflow=""}e==null||e.addEventListener("click",n),l==null||l.addEventListener("click",i),s==null||s.addEventListener("click",i)}function h(){document.querySelectorAll(".mobile-nav-group-btn").forEach(e=>{const a=e.nextElementSibling;a&&(a.style.maxHeight="0",a.style.overflow="hidden",a.style.transition="max-height 0.3s ease",e.addEventListener("click",()=>{const s=e.getAttribute("aria-expanded")==="true";document.querySelectorAll('.mobile-nav-group-btn[aria-expanded="true"]').forEach(l=>{l!==e&&(l.setAttribute("aria-expanded","false"),l.nextElementSibling.style.maxHeight="0")}),e.setAttribute("aria-expanded",String(!s)),a.style.maxHeight=s?"0":a.scrollHeight+"px"}))})}async function b(){var l,n;const e=document.getElementById("header-account"),a=document.getElementById("mobile-nav-account");if(!e)return;const{data:{user:s}}=await t.auth.getUser();if(s){const{data:i}=await t.from("profiles").select("username, avatar_url, role, faction").eq("id",s.id).maybeSingle();if(i){const r=i.faction||"none";document.body.dataset.faction=r,document.body.classList.remove("faction-pirate","faction-marine","faction-revolutionnaire"),r!=="none"&&document.body.classList.add("faction-"+r);const o=i.avatar_url?`<img src="${i.avatar_url}" alt="${i.username}" class="header-avatar-img">`:`<span class="header-avatar-initial">${i.username[0].toUpperCase()}</span>`;e.innerHTML=`
         <div class="header-user-menu">
           <a href="/profile.html" class="header-user-link">
-            <div class="header-avatar-circle">${r}</div>
+            <div class="header-avatar-circle">${o}</div>
             <span class="header-username-label">${i.username}</span>
           </a>
           <div class="header-user-dropdown">
@@ -205,16 +205,16 @@ import{a as o,s as t}from"./auth-AcyiL45k.js";const m=`
             </div>
           </div>
         </div>
-      `,(l=document.getElementById("header-signout"))==null||l.addEventListener("click",t),a&&(a.innerHTML=`
+      `,(l=document.getElementById("header-signout"))==null||l.addEventListener("click",m),a&&(a.innerHTML=`
           <a href="/profile.html" class="mobile-nav-account-link">
-            <div class="mobile-nav-avatar">${r}</div>
+            <div class="mobile-nav-avatar">${o}</div>
             <span>${i.username}</span>
           </a>
           <a href="/profile.html" class="mobile-nav-link"><i class="fas fa-user"></i> Profil</a>
           <a href="/messages.html" class="mobile-nav-link"><i class="fas fa-envelope"></i> Messages</a>
           ${i.role==="admin"?'<a href="/admin.html" class="mobile-nav-link"><i class="fas fa-crown"></i> Admin</a>':""}
           <button class="mobile-nav-signout" id="mobile-nav-signout"><i class="fas fa-sign-out-alt"></i> Déconnexion</button>
-        `,(n=document.getElementById("mobile-nav-signout"))==null||n.addEventListener("click",t))}}else e.innerHTML=`
+        `,(n=document.getElementById("mobile-nav-signout"))==null||n.addEventListener("click",m))}}else e.innerHTML=`
       <a href="/login.html" class="header-compte-btn">
         <i class="fas fa-user"></i>
         <span>Compte</span>
@@ -223,4 +223,4 @@ import{a as o,s as t}from"./auth-AcyiL45k.js";const m=`
         <a href="/login.html" class="mobile-nav-link mobile-nav-link--cta">
           <i class="fas fa-user"></i> Se connecter
         </a>
-      `)}export{v as i,h as u};
+      `)}export{f as i,b as u};
