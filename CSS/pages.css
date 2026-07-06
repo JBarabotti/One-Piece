@@ -193,10 +193,10 @@
 
 /* ─── Glass card ─────────────────────────────────────────── */
 .glass-card {
-  background: rgba(8, 13, 24, 0.88);
+  background: var(--faction-color);
   backdrop-filter: blur(28px);
   -webkit-backdrop-filter: blur(28px);
-  border: 1px solid rgba(56, 189, 248, 0.15);
+  border: 1px solid var(--faction-border);
   border-radius: 20px;
   padding: 48px 40px;
   width: 100%;
@@ -604,9 +604,9 @@ textarea.form-input {
 }
 
 .profile-header-card {
-  background: rgba(8, 13, 24, 0.85);
+  background: var(--faction-color);
   backdrop-filter: blur(24px);
-  border: 1px solid rgba(245, 158, 11, 0.2);
+  border: 1px solid var(--faction-border);
   border-radius: 20px;
   padding: 40px;
   margin-bottom: 24px;
@@ -695,9 +695,9 @@ textarea.form-input {
 }
 
 .profile-section-card {
-  background: rgba(8, 13, 24, 0.82);
+  background: var(--faction-color);
   backdrop-filter: blur(20px);
-  border: 1px solid rgba(56, 189, 248, 0.12);
+  border: 1px solid var(--faction-border);
   border-radius: 16px;
   padding: 30px 36px;
   margin-bottom: 18px;
@@ -833,8 +833,8 @@ textarea.form-input {
 .messages-sidebar {
   width: 300px;
   flex-shrink: 0;
-  background: rgba(6, 10, 20, 0.92);
-  border-right: 1px solid rgba(56, 189, 248, 0.1);
+  background: var(--faction-color);
+  border-right: 1px solid var(--faction-border);
   display: flex;
   flex-direction: column;
   overflow: hidden;
@@ -967,7 +967,7 @@ textarea.form-input {
   display: flex;
   flex-direction: column;
   overflow: hidden;
-  background: rgba(5, 8, 16, 0.88);
+  background: var(--faction-color);
 }
 
 .messages-main-header {
@@ -1341,7 +1341,7 @@ textarea.form-input {
 }
 
 /* ════════════════════════════════════════════════════════════
-   FACTION DYNAMIC THEMING (applied via body[data-faction])
+   FACTION DYNAMIC THEMING (applied via body[data-faction] or body.faction-*)
 ════════════════════════════════════════════════════════════ */
 :root {
   --faction-primary: #F59E0B;
@@ -1349,35 +1349,46 @@ textarea.form-input {
   --faction-glow: rgba(245, 158, 11, 0.35);
   --faction-bg: rgba(245, 158, 11, 0.08);
   --faction-border: rgba(245, 158, 11, 0.25);
+  --faction-color: rgba(8, 13, 24, 0.88);
 }
 
-body[data-faction="pirate"] {
+body[data-faction="pirate"],
+body.faction-pirate {
   --faction-primary: #F59E0B;
   --faction-secondary: #FDBA74;
   --faction-glow: rgba(245, 158, 11, 0.35);
   --faction-bg: rgba(245, 158, 11, 0.08);
   --faction-border: rgba(245, 158, 11, 0.25);
+  --faction-color: rgba(16, 11, 4, 0.90);
 }
 
-body[data-faction="marine"] {
+body[data-faction="marine"],
+body.faction-marine {
   --faction-primary: #38BDF8;
   --faction-secondary: #7DD3FC;
   --faction-glow: rgba(56, 189, 248, 0.35);
   --faction-bg: rgba(56, 189, 248, 0.08);
   --faction-border: rgba(56, 189, 248, 0.25);
+  --faction-color: rgba(4, 9, 22, 0.92);
 }
 
-body[data-faction="revolutionnaire"] {
+body[data-faction="revolutionnaire"],
+body.faction-revolutionnaire {
   --faction-primary: #EF4444;
   --faction-secondary: #FCA5A5;
   --faction-glow: rgba(239, 68, 68, 0.35);
   --faction-bg: rgba(239, 68, 68, 0.08);
   --faction-border: rgba(239, 68, 68, 0.25);
+  --faction-color: rgba(16, 4, 6, 0.90);
 }
 
 /* Profile page faction-themed elements */
-body[data-faction] .profile-header-card {
+body[data-faction] .profile-header-card,
+body.faction-pirate .profile-header-card,
+body.faction-marine .profile-header-card,
+body.faction-revolutionnaire .profile-header-card {
   border-color: var(--faction-border);
+  box-shadow: 0 4px 32px var(--faction-glow);
 }
 
 body[data-faction] .profile-avatar-big,
@@ -1396,6 +1407,14 @@ body[data-faction] .profile-info h2 {
 
 body[data-faction] .profile-section-title {
   color: var(--faction-secondary);
+}
+
+body[data-faction] .profile-section-card,
+body.faction-pirate .profile-section-card,
+body.faction-marine .profile-section-card,
+body.faction-revolutionnaire .profile-section-card {
+  border-color: var(--faction-border);
+  box-shadow: 0 2px 20px var(--faction-glow);
 }
 
 body[data-faction] .btn-edit {
@@ -1444,6 +1463,25 @@ body[data-faction] .messages-textarea:focus {
 
 body[data-faction] .messages-search-input:focus {
   border-color: var(--faction-primary);
+}
+
+body[data-faction] .messages-sidebar,
+body.faction-pirate .messages-sidebar,
+body.faction-marine .messages-sidebar,
+body.faction-revolutionnaire .messages-sidebar {
+  border-right-color: var(--faction-border);
+}
+
+/* Glass card faction glow */
+body[data-faction] .glass-card,
+body.faction-pirate .glass-card,
+body.faction-marine .glass-card,
+body.faction-revolutionnaire .glass-card {
+  border-color: var(--faction-border);
+  box-shadow:
+    0 24px 64px rgba(0, 0, 0, 0.75),
+    0 0 0 1px rgba(255, 255, 255, 0.04) inset,
+    0 0 40px var(--faction-glow);
 }
 
 /* ════════════════════════════════════════════════════════════

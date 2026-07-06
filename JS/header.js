@@ -270,11 +270,16 @@ export async function updateHeaderAuth() {
   if (user) {
     const { data: profile } = await supabase
       .from('profiles')
-      .select('username, avatar_url, role')
+      .select('username, avatar_url, role, faction')
       .eq('id', user.id)
       .maybeSingle()
 
     if (profile) {
+      // Apply faction theme globally on every page
+      const faction = profile.faction || 'none'
+      document.body.dataset.faction = faction
+      document.body.classList.remove('faction-pirate', 'faction-marine', 'faction-revolutionnaire')
+      if (faction !== 'none') document.body.classList.add('faction-' + faction)
       const avatarContent = profile.avatar_url
         ? `<img src="${profile.avatar_url}" alt="${profile.username}" class="header-avatar-img">`
         : `<span class="header-avatar-initial">${profile.username[0].toUpperCase()}</span>`
