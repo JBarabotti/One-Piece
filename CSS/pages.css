@@ -1349,7 +1349,7 @@ textarea.form-input {
   --faction-glow: rgba(245, 158, 11, 0.35);
   --faction-bg: rgba(245, 158, 11, 0.08);
   --faction-border: rgba(245, 158, 11, 0.25);
-  --faction-color: rgba(8, 13, 24, 0.4);
+  --faction-color: rgba(8, 13, 24, 0);
 }
 
 body[data-faction="pirate"],
