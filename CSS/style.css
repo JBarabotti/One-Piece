@@ -23,8 +23,6 @@ body {
     font-family: 'Inter', sans-serif;
     min-height: 100vh;
     width: 100%;
-    background-image: url("/IMG/Background-home.png");
-    background-repeat: no-repeat;
 }
 
 .background {
