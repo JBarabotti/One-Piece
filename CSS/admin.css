@@ -479,7 +479,7 @@
   font-weight: 600;
   white-space: nowrap;
 }
-.faction-pill.pirate         { background: rgba(245,158,11,0.1); color: #F59E0B; }
+.faction-pill.pirate         { background: rgba(245,158,11,0.9); color: #F59E0B; }
 .faction-pill.marine         { background: rgba(56,189,248,0.1); color: #38BDF8; }
 .faction-pill.revolutionnaire{ background: rgba(239,68,68,0.1);  color: #EF4444; }
 
