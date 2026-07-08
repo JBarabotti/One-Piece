@@ -1,4 +1,4 @@
-import{b,a as c}from"./auth-Bx0_tURC.js";import{i as y}from"./header-AYJnNoA1.js";y();let n=null,l=null,r=null,v=[];(async()=>{if(n=await b(),!n)return;const{data:a}=await c.from("profiles").select("*").eq("id",n.id).maybeSingle();l=a,l!=null&&l.faction&&(document.body.dataset.faction=l.faction),await u(),q(),E();const t=new URLSearchParams(window.location.search).get("with");t&&o(t)})();async function u(){const{data:a}=await c.from("messages").select(`
+import{b,a as c}from"./auth-Oj6svuaq.js";import{i as y}from"./header-Bn4yARWw.js";y();let n=null,l=null,r=null,v=[];(async()=>{if(n=await b(),!n)return;const{data:a}=await c.from("profiles").select("*").eq("id",n.id).maybeSingle();l=a,l!=null&&l.faction&&(document.body.dataset.faction=l.faction),await u(),q(),E();const t=new URLSearchParams(window.location.search).get("with");t&&o(t)})();async function u(){const{data:a}=await c.from("messages").select(`
       id, content, created_at, read, sender_id, receiver_id,
       sender:sender_id(id, username, avatar_url),
       receiver:receiver_id(id, username, avatar_url)
