@@ -1,6 +1,6 @@
 import{a as t,s as m}from"./auth-Oj6svuaq.js";const c=`
   <a href="/index.html" class="logo">
-    <img src="IMG/Logo.png" alt="Logo de One Piece" width="150">
+    <img src="https://1000logos.net/wp-content/uploads/2022/08/One-Piece-Logo.png" alt="Logo de One Piece" width="150">
   </a>
   <nav>
     <ul>
@@ -125,7 +125,7 @@ import{a as t,s as m}from"./auth-Oj6svuaq.js";const c=`
   <aside class="mobile-nav" id="mobile-nav" aria-hidden="true">
     <div class="mobile-nav-header">
       <a href="/index.html" class="mobile-nav-logo">
-        <img src="IMG/Logo.png" alt="One Piece" height="40">
+        <img src="https://1000logos.net/wp-content/uploads/2022/08/One-Piece-Logo.png" alt="One Piece" height="40">
       </a>
       <button class="mobile-nav-close" id="mobile-nav-close" aria-label="Fermer">
         <i class="fas fa-times"></i>
@@ -190,7 +190,7 @@ import{a as t,s as m}from"./auth-Oj6svuaq.js";const c=`
     </nav>
     <div class="mobile-nav-account" id="mobile-nav-account"></div>
   </aside>
-`;async function f(){const e=document.getElementById("site-header");e&&(e.innerHTML=c,document.body.insertAdjacentHTML("beforeend",u),d(),h(),await b())}function d(){const e=document.getElementById("burger-btn"),a=document.getElementById("mobile-nav"),s=document.getElementById("mobile-nav-overlay"),l=document.getElementById("mobile-nav-close");function n(){a.classList.add("open"),s.classList.add("open"),a.setAttribute("aria-hidden","false"),e.setAttribute("aria-expanded","true"),e.classList.add("open"),document.body.style.overflow="hidden"}function i(){a.classList.remove("open"),s.classList.remove("open"),a.setAttribute("aria-hidden","true"),e.setAttribute("aria-expanded","false"),e.classList.remove("open"),document.body.style.overflow=""}e==null||e.addEventListener("click",n),l==null||l.addEventListener("click",i),s==null||s.addEventListener("click",i)}function h(){document.querySelectorAll(".mobile-nav-group-btn").forEach(e=>{const a=e.nextElementSibling;a&&(a.style.maxHeight="0",a.style.overflow="hidden",a.style.transition="max-height 0.3s ease",e.addEventListener("click",()=>{const s=e.getAttribute("aria-expanded")==="true";document.querySelectorAll('.mobile-nav-group-btn[aria-expanded="true"]').forEach(l=>{l!==e&&(l.setAttribute("aria-expanded","false"),l.nextElementSibling.style.maxHeight="0")}),e.setAttribute("aria-expanded",String(!s)),a.style.maxHeight=s?"0":a.scrollHeight+"px"}))})}async function b(){var l,n;const e=document.getElementById("header-account"),a=document.getElementById("mobile-nav-account");if(!e)return;const{data:{user:s}}=await t.auth.getUser();if(s){const{data:i}=await t.from("profiles").select("username, avatar_url, role, faction").eq("id",s.id).maybeSingle();if(i){const r=i.faction||"none";document.body.dataset.faction=r,document.body.classList.remove("faction-pirate","faction-marine","faction-revolutionnaire"),r!=="none"&&document.body.classList.add("faction-"+r);const o=i.avatar_url?`<img src="${i.avatar_url}" alt="${i.username}" class="header-avatar-img">`:`<span class="header-avatar-initial">${i.username[0].toUpperCase()}</span>`;e.innerHTML=`
+`;async function p(){const e=document.getElementById("site-header");e&&(e.innerHTML=c,document.body.insertAdjacentHTML("beforeend",u),d(),h(),await b())}function d(){const e=document.getElementById("burger-btn"),a=document.getElementById("mobile-nav"),s=document.getElementById("mobile-nav-overlay"),l=document.getElementById("mobile-nav-close");function n(){a.classList.add("open"),s.classList.add("open"),a.setAttribute("aria-hidden","false"),e.setAttribute("aria-expanded","true"),e.classList.add("open"),document.body.style.overflow="hidden"}function i(){a.classList.remove("open"),s.classList.remove("open"),a.setAttribute("aria-hidden","true"),e.setAttribute("aria-expanded","false"),e.classList.remove("open"),document.body.style.overflow=""}e==null||e.addEventListener("click",n),l==null||l.addEventListener("click",i),s==null||s.addEventListener("click",i)}function h(){document.querySelectorAll(".mobile-nav-group-btn").forEach(e=>{const a=e.nextElementSibling;a&&(a.style.maxHeight="0",a.style.overflow="hidden",a.style.transition="max-height 0.3s ease",e.addEventListener("click",()=>{const s=e.getAttribute("aria-expanded")==="true";document.querySelectorAll('.mobile-nav-group-btn[aria-expanded="true"]').forEach(l=>{l!==e&&(l.setAttribute("aria-expanded","false"),l.nextElementSibling.style.maxHeight="0")}),e.setAttribute("aria-expanded",String(!s)),a.style.maxHeight=s?"0":a.scrollHeight+"px"}))})}async function b(){var l,n;const e=document.getElementById("header-account"),a=document.getElementById("mobile-nav-account");if(!e)return;const{data:{user:s}}=await t.auth.getUser();if(s){const{data:i}=await t.from("profiles").select("username, avatar_url, role, faction").eq("id",s.id).maybeSingle();if(i){const r=i.faction||"none";document.body.dataset.faction=r,document.body.classList.remove("faction-pirate","faction-marine","faction-revolutionnaire"),r!=="none"&&document.body.classList.add("faction-"+r);const o=i.avatar_url?`<img src="${i.avatar_url}" alt="${i.username}" class="header-avatar-img">`:`<span class="header-avatar-initial">${i.username[0].toUpperCase()}</span>`;e.innerHTML=`
         <div class="header-user-menu">
           <a href="/profile.html" class="header-user-link">
             <div class="header-avatar-circle">${o}</div>
@@ -223,4 +223,4 @@ import{a as t,s as m}from"./auth-Oj6svuaq.js";const c=`
         <a href="/login.html" class="mobile-nav-link mobile-nav-link--cta">
           <i class="fas fa-user"></i> Se connecter
         </a>
-      `)}export{f as i,b as u};
+      `)}export{p as i,b as u};
