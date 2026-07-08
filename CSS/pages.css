@@ -1359,7 +1359,7 @@ body.faction-pirate {
   --faction-glow: rgba(245, 158, 11, 0.35);
   --faction-bg: rgba(245, 158, 11, 0.08);
   --faction-border: rgba(245, 158, 11, 0.25);
-  --faction-color: rgba(16, 11, 4, 0.70);
+  --faction-color: rgba(16, 11, 4, 0.80);
 }
 
 body[data-faction="marine"],
