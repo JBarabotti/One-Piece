@@ -130,7 +130,7 @@ const MOBILE_NAV_HTML = `
   <aside class="mobile-nav" id="mobile-nav" aria-hidden="true">
     <div class="mobile-nav-header">
       <a href="/index.html" class="mobile-nav-logo">
-        <img src="IMG/Logo.png" alt="One Piece" height="40">
+        <img src="https://1000logos.net/wp-content/uploads/2022/08/One-Piece-Logo.png" alt="One Piece" height="40">
       </a>
       <button class="mobile-nav-close" id="mobile-nav-close" aria-label="Fermer">
         <i class="fas fa-times"></i>
