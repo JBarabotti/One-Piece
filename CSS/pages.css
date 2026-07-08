@@ -1369,7 +1369,7 @@ body.faction-marine {
   --faction-glow: rgba(56, 189, 248, 0.35);
   --faction-bg: rgba(56, 189, 248, 0.08);
   --faction-border: rgba(56, 189, 248, 0.25);
-  --faction-color: rgba(4, 9, 22, 0.92);
+  --faction-color: rgba(4, 9, 22, 0.70);
 }
 
 body[data-faction="revolutionnaire"],
@@ -1379,7 +1379,7 @@ body.faction-revolutionnaire {
   --faction-glow: rgba(239, 68, 68, 0.35);
   --faction-bg: rgba(239, 68, 68, 0.08);
   --faction-border: rgba(239, 68, 68, 0.25);
-  --faction-color: rgba(16, 4, 6, 0.90);
+  --faction-color: rgba(16, 4, 6, 0.70);
 }
 
 /* Profile page faction-themed elements */
