@@ -3,7 +3,7 @@ import { signOut } from './auth.js'
 
 const NAV_HTML = `
   <a href="/index.html" class="logo">
-    <img src="IMG/Logo.png" alt="Logo de One Piece" width="150">
+    <img src="https://1000logos.net/wp-content/uploads/2022/08/One-Piece-Logo.png" alt="Logo de One Piece" width="150">
   </a>
   <nav>
     <ul>
