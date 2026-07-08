@@ -3,7 +3,7 @@ import { signOut } from './auth.js'
 
 const NAV_HTML = `
   <a href="/index.html" class="logo">
-    <img src="./IMG/Logo.png" alt="Logo de One Piece" width="150">
+    <img src="IMG/Logo.png" alt="Logo de One Piece" width="150">
   </a>
   <nav>
     <ul>
@@ -130,7 +130,7 @@ const MOBILE_NAV_HTML = `
   <aside class="mobile-nav" id="mobile-nav" aria-hidden="true">
     <div class="mobile-nav-header">
       <a href="/index.html" class="mobile-nav-logo">
-        <img src="./IMG/Logo.png" alt="One Piece" height="40">
+        <img src="IMG/Logo.png" alt="One Piece" height="40">
       </a>
       <button class="mobile-nav-close" id="mobile-nav-close" aria-label="Fermer">
         <i class="fas fa-times"></i>
